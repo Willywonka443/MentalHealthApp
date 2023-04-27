@@ -1,4 +1,4 @@
-import { TextField } from '@mui/material';
+import { TextField, Card, CardContent } from '@mui/material';
 import React from 'react'
 import { useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
@@ -14,25 +14,22 @@ const Login = ({restId, setRestId}) => {
       }
     return (
         <>
-            <html>
 
-            <body class="login">
-
-                <center><p class="login">
+                <center>
 
                     <center><h1>Welcome {restId} </h1></center>
                     
                     <div>
 
                     </div>
-                    
+                    <Card sx={{ width: 275 }}><CardContent>
                     <form>
-                    <TextField id="standard-basic" label="Username:" variant="standard" />
+                    <TextField id="username" label="Username:" variant="standard" />
                         <div>
                             <br>
                             </br>
                         </div>
-                    <TextField id="standard-basic" label="Password:" type="password" variant="standard" />
+                    <TextField id="password" label="Password:" type="password" variant="standard" />
                         <div>
                             <br>
                             </br>
@@ -45,14 +42,11 @@ const Login = ({restId, setRestId}) => {
 
                         <Button  variant="text" >Create Account</Button>
                     </form>
-
-                </p>
+                    </CardContent></Card>
 
                 </center>
 
-            </body>
 
-            </html>
 
         </>
     )

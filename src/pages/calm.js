@@ -5,6 +5,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import SelfImprovementIcon from '@mui/icons-material/SelfImprovement';
 import CreateIcon from '@mui/icons-material/Create';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const Calm = ({restId}) => {
     const navigate = useNavigate()
@@ -16,19 +17,21 @@ const Calm = ({restId}) => {
         navigate("/basepage")
       }
     
-      const gotToPast = () =>{
+    const gotToPast = () =>{
         navigate("/past")
     }
+
+    const goToLogin = () => {
+        navigate("/login");
+      }
 
 
     return (
         <>
-            <html>
-            <body class="calm">
-                <center><p class="calm">
+                <center>
 
 
-                    <center><h1>Calm page {restId}</h1></center>
+                    <center><h1>Calm{restId}</h1></center>
                     <div>
 
                     </div>
@@ -37,14 +40,15 @@ const Calm = ({restId}) => {
                     <IconButton size="small" variant="contained"  color="primary" disabled><SelfImprovementIcon/>Calm</IconButton>
                     <IconButton size="small" variant="contained"  color="primary" onClick={(e) => goToJournal()}><CreateIcon/>New Journal</IconButton>
                     <IconButton size="small" variant="contained"  color="primary" onClick={(e) => gotToPast()}><AutoStoriesIcon /> Past Journals</IconButton>
+                    <IconButton size="small" variant="contained"  color="primary" onClick={(e) => goToLogin()}><LogoutIcon/></IconButton>
                     </Stack>
-                    
-                </p>
+                    <div>
+                        
+                            <p>Work in Progress</p>
+                        
+                    </div>
+                
                 </center>
-            </body>
-            </html>
-
-
         </>
     )
 }
