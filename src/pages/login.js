@@ -1,24 +1,31 @@
 import { TextField } from '@mui/material';
 import React from 'react'
-
+import { useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
 
 
 
 
-const Login = () => {
-
+const Login = ({restId, setRestId}) => {
+    const navigate = useNavigate()
+    const goToHome = (id) => {
+        setRestId(id)
+        navigate("/basepage")
+      }
     return (
         <>
             <html>
+
             <body class="login">
+
                 <center><p class="login">
 
-
-                    <center><h1>Welcome</h1></center>
+                    <center><h1>Welcome {restId} </h1></center>
+                    
                     <div>
 
                     </div>
+                    
                     <form>
                     <TextField id="standard-basic" label="Username:" variant="standard" />
                         <div>
@@ -30,7 +37,7 @@ const Login = () => {
                             <br>
                             </br>
                         </div>
-                        <Button variant="contained">Login</Button>
+                        <Button size="small" onClick={(e) => goToHome()}>Login</Button>
                         <div>
                             <br>
                             </br>
@@ -38,13 +45,17 @@ const Login = () => {
 
                         <Button  variant="text" >Create Account</Button>
                     </form>
-                </p>
-                </center>
-            </body>
-            </html>
 
+                </p>
+
+                </center>
+
+            </body>
+
+            </html>
 
         </>
     )
 }
 export default Login
+

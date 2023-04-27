@@ -1,14 +1,12 @@
 import React from 'react';
-import logo from './logo.svg';
-import{Typography, Grid} from '@mui/material';
 import './App.css';
-import Login from './pages/login';
+import Layout from './pages/layout';
 
 
 function App() {
   return (
     <>
-   <Login></Login>
+      <Layout></Layout>
    </>
   );
 }
