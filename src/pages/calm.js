@@ -10,7 +10,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 const Calm = ({restId}) => {
     const navigate = useNavigate()
     const goToJournal = () => {
-        navigate("/journals")
+        navigate("/entries")
       }
     
     const goToHome = () => {

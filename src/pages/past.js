@@ -1,9 +1,9 @@
-import {client} from "../apolloClient";
+import client from "../apolloClient"
 import { gql, useQuery } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import SelfImprovementIcon from "@mui/icons-material/SelfImprovement";
-import {IconButton, Stack, Card, CardContent, Typography } from "@mui/material";
+import {IconButton, Stack, Card, CardContent, Typography, Box } from "@mui/material";
 import CreateIcon from "@mui/icons-material/Create";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -12,7 +12,12 @@ const JOURNALS_QUERY = gql`
   query {
     journals {
       id
-      entry
+      username
+      accomplishment
+      gratitude
+      learning
+      struggle
+      lookingForward
       entryDate
     }
   }
@@ -30,7 +35,7 @@ export default function Past({ restId }) {
   };
 
   const goToJournal = () => {
-    navigate("/journals");
+    navigate("/entries");
   };
 
   const goToLogin = () => {
@@ -68,10 +73,18 @@ export default function Past({ restId }) {
         sx={{ marginTop: "2rem" }}
       >
         {data.journals.map((journal) => (
-          <Card key={journal.id}>
-            <CardContent>
+           <Card key={journal.id}>
+           <CardContent>
+            <Box>
               <Typography variant="h6">{journal.entryDate}</Typography>
-              <Typography variant="body1">{journal.entry}</Typography>
+              <Typography variant="body1">1: {journal.accomplishment}</Typography>
+              <Typography variant="body1">2: {journal.gratitude}</Typography>              
+              <Typography variant="body1">3: {journal.learning}</Typography>
+              <Typography variant="body1">4: {journal.struggle}</Typography>
+              <Typography variant="body1">5: {journal.lookingForward}</Typography>
+              <Typography variant="caption">Username: {journal.username}</Typography>
+              
+              </Box>
             </CardContent>
           </Card>
         ))}

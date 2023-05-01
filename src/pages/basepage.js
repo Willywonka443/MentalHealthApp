@@ -11,7 +11,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 const Basepage = ({restId}) => {
     const navigate = useNavigate()
     const goToJournals = (id) => {        
-        navigate("/journals")
+        navigate("/entries")
       }
     
     const goToCalm = (id) => {        
@@ -25,6 +25,7 @@ const Basepage = ({restId}) => {
     const goToLogin = () => {
         navigate("/login");
       }
+    
    
 
     return (
@@ -44,9 +45,7 @@ const Basepage = ({restId}) => {
                     <IconButton size="small" variant="contained"  color="primary" onClick={(e) => goToLogin()}><LogoutIcon/></IconButton>
                     </Stack>
                     
-                    <div>
-                        <p>Work in Progress</p>
-                    </div>
+                    
                 
                 </center>
 
