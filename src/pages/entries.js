@@ -76,7 +76,7 @@ function JournalEntryForm({ restId }) {
   const [struggle, setStruggle] = React.useState('');
   const [entryDate, setEntryDate] = React.useState('');
 
-  const [createJournalEntry, { loading: createLoading, error: createError, data }] = useMutation(CREATE_JOURNAL_ENTRY, { client });
+  const [createJournalEntry, { loading: createLoading, error: createError }] = useMutation(CREATE_JOURNAL_ENTRY, { client });
   const [publishJournalEntry, { loading: publishLoading, error: publishError }] = useMutation(PUBLISH_JOURNAL_ENTRY, { client });
 
   const handleSubmit = async (e) => {
