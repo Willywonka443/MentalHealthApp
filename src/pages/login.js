@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 
 
 
-const Login = ({ setRestId}) => {
+const Login = ({restId, setRestId}) => {
     const navigate = useNavigate()
     const goToHome = (id) => {
         setRestId(id)
@@ -14,7 +14,7 @@ const Login = ({ setRestId}) => {
       }
       return (
         <center>
-          <center><h1>Welcome {setRestId}</h1></center>
+          <center><h1>Welcome {restId}</h1></center>
           
           <Card sx={{ width: 275 }}>
             <CardContent>

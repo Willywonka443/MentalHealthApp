@@ -7,7 +7,7 @@ import CreateIcon from '@mui/icons-material/Create';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-const Calm = ({restId, setRestId}) => {
+const Calm = ({restId}) => {
     const navigate = useNavigate()
     const goToJournal = () => {
         
@@ -39,11 +39,11 @@ const Calm = ({restId, setRestId}) => {
 
                     </div>
                     <Stack direction="row" justifyContent="center" spacing={.5}>
-                    <IconButton size="small" variant="contained"  color="primary" onClick={(e) => goToHome()}><HomeIcon/>Home</IconButton>
+                    <IconButton size="small" variant="contained"  color="primary" onClick={(setRestId) => goToHome(setRestId)}><HomeIcon/>Home</IconButton>
                     <IconButton size="small" variant="contained"  color="primary" disabled><SelfImprovementIcon/>Calm</IconButton>
-                    <IconButton size="small" variant="contained"  color="primary" onClick={(e) => goToJournal()}><CreateIcon/>New Journal</IconButton>
-                    <IconButton size="small" variant="contained"  color="primary" onClick={(e) => gotToPast(setRestId)}><AutoStoriesIcon /> Past Journals</IconButton>
-                    <IconButton size="small" variant="contained"  color="primary" onClick={(e) => goToLogin()}><LogoutIcon/></IconButton>
+                    <IconButton size="small" variant="contained"  color="primary" onClick={(setRestId) => goToJournal(setRestId)}><CreateIcon/>New Journal</IconButton>
+                    <IconButton size="small" variant="contained"  color="primary" onClick={(setRestId) => gotToPast(setRestId)}><AutoStoriesIcon /> Past Journals</IconButton>
+                    <IconButton size="small" variant="contained"  color="primary" onClick={(setRestId) => goToLogin(setRestId)}><LogoutIcon/></IconButton>
                     </Stack>
                     <div>
                         

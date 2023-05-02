@@ -26,7 +26,7 @@ const Basepage = ({restId, setRestId}) => {
       }
 
     const goToLogin = (id) => {
-        setRestId(id)
+        
         navigate("/login");
       }
     

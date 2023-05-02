@@ -154,7 +154,7 @@ function JournalEntryForm({ restId, setRestId }) {
   };
 
   const goToLogin = (id) => {
-    setRestId(id)
+    
     navigate("/login");
   };
 
