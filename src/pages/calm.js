@@ -1,5 +1,5 @@
 import React from 'react';
-import {Stack, IconButton} from '@mui/material';
+import { Stack, IconButton } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import HomeIcon from '@mui/icons-material/Home';
 import SelfImprovementIcon from '@mui/icons-material/SelfImprovement';
@@ -7,52 +7,52 @@ import CreateIcon from '@mui/icons-material/Create';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-const Calm = ({restId}) => {
-    const navigate = useNavigate()
-    const goToJournal = () => {
-        
-        navigate("/entries")
-      }
-    
-    const goToHome = () => {
-        navigate("/basepage")
-      }
-    
-    const gotToPast = () =>{
-        
-        navigate("/past")
-    }
+const Calm = ({ restId }) => {
+  const navigate = useNavigate()
+  const goToJournal = () => {
 
-    const goToLogin = () => {
-        
-        navigate("/login");
-      }
+    navigate("/entries")
+  }
 
+  const goToHome = () => {
+    navigate("/basepage")
+  }
 
-    return (
-        <>
-                <center>
+  const gotToPast = () => {
+
+    navigate("/past")
+  }
+
+  const goToLogin = () => {
+
+    navigate("/login");
+  }
 
 
-                    <center><h1>Calm{restId}</h1></center>
-                    <div>
+  return (
+    <>
+      <center>
 
-                    </div>
-                    <Stack direction="row" justifyContent="center" spacing={.5}>
-                    <IconButton size="small" variant="contained"  color="primary" onClick={(setRestId) => goToHome(setRestId)}><HomeIcon/>Home</IconButton>
-                    <IconButton size="small" variant="contained"  color="primary" disabled><SelfImprovementIcon/>Calm</IconButton>
-                    <IconButton size="small" variant="contained"  color="primary" onClick={(setRestId) => goToJournal(setRestId)}><CreateIcon/>New Journal</IconButton>
-                    <IconButton size="small" variant="contained"  color="primary" onClick={(setRestId) => gotToPast(setRestId)}><AutoStoriesIcon /> Past Journals</IconButton>
-                    <IconButton size="small" variant="contained"  color="primary" onClick={(setRestId) => goToLogin(setRestId)}><LogoutIcon/></IconButton>
-                    </Stack>
-                    <div>
-                        
-                            <p>Work in Progress</p>
-                        
-                    </div>
-                
-                </center>
-        </>
-    )
+
+        <center><h1>Calm{restId}</h1></center>
+        <div>
+
+        </div>
+        <Stack direction="row" justifyContent="center" spacing={.5}>
+          <IconButton size="small" variant="contained" color="primary" onClick={() => goToHome()}><HomeIcon />Home</IconButton>
+          <IconButton size="small" variant="contained" color="primary" onClick={() => goToJournal()}><CreateIcon />New Journal</IconButton>
+          <IconButton size="small" variant="contained" color="primary" onClick={() => gotToPast()}><AutoStoriesIcon /> Past Journals</IconButton>
+          <IconButton size="small" variant="contained" color="primary" onClick={() => goToLogin()}><LogoutIcon /></IconButton>
+
+        </Stack>
+        <div>
+
+          <p>Work in Progress</p>
+
+        </div>
+
+      </center>
+    </>
+  )
 }
 export default Calm
