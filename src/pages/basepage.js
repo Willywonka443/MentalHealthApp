@@ -8,21 +8,25 @@ import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 
-const Basepage = ({restId}) => {
+const Basepage = ({restId, setRestId}) => {
     const navigate = useNavigate()
-    const goToJournals = (id) => {        
+    const goToJournals = (id) => {   
+        
         navigate("/entries")
       }
     
-    const goToCalm = (id) => {        
+    const goToCalm = (id) => {  
+              
         navigate("/calm")
       }
       
-    const gotToPast = () =>{
+    const gotToPast = (id) =>{
+        
         navigate("/past")
       }
 
-    const goToLogin = () => {
+    const goToLogin = (id) => {
+        setRestId(id)
         navigate("/login");
       }
     
@@ -39,10 +43,10 @@ const Basepage = ({restId}) => {
                     </div>
                     <Stack direction="row" justifyContent="center" spacing={.5}>
                     <IconButton size="small" variant="contained" disabled ><HomeIcon/>Home</IconButton>
-                    <IconButton size="small" variant="contained"  color="primary" onClick={(e) => goToCalm()}><SelfImprovementIcon/>Calm</IconButton>
-                    <IconButton size="small" variant="contained"  color="primary" onClick={(e) => goToJournals()}><CreateIcon/>New Journal</IconButton>
-                    <IconButton size="small" variant="contained"  color="primary" onClick={(e) => gotToPast()}><AutoStoriesIcon /> Past Journals</IconButton>
-                    <IconButton size="small" variant="contained"  color="primary" onClick={(e) => goToLogin()}><LogoutIcon/></IconButton>
+                    <IconButton size="small" variant="contained"  color="primary" onClick={() => goToCalm()}><SelfImprovementIcon/>Calm</IconButton>
+                    <IconButton size="small" variant="contained"  color="primary" onClick={() => goToJournals()}><CreateIcon/>New Journal</IconButton>
+                    <IconButton size="small" variant="contained"  color="primary" onClick={() => gotToPast()}><AutoStoriesIcon /> Past Journals</IconButton>
+                    <IconButton size="small" variant="contained"  color="primary" onClick={() => goToLogin()}><LogoutIcon/></IconButton>
                     </Stack>
                     
                     

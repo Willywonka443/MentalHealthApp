@@ -23,7 +23,7 @@ const JOURNALS_QUERY = gql`
   }
 `;
 
-export default function Past({ restId }) {
+export default function Past({ restId, setRestId }) {
   const navigate = useNavigate();
 
   const goToHome = () => {
@@ -38,7 +38,8 @@ export default function Past({ restId }) {
     navigate("/entries");
   };
 
-  const goToLogin = () => {
+  const goToLogin = (id) => {
+    setRestId(id)
     navigate("/login");
   }
 

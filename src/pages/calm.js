@@ -7,7 +7,7 @@ import CreateIcon from '@mui/icons-material/Create';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-const Calm = ({restId}) => {
+const Calm = ({restId, setRestId}) => {
     const navigate = useNavigate()
     const goToJournal = () => {
         navigate("/entries")
@@ -21,7 +21,8 @@ const Calm = ({restId}) => {
         navigate("/past")
     }
 
-    const goToLogin = () => {
+    const goToLogin = (id) => {
+        setRestId(id)
         navigate("/login");
       }
 

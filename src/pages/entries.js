@@ -66,7 +66,7 @@ const PUBLISH_JOURNAL_ENTRY = gql`
 
 
 
-function JournalEntryForm({ restId }) {
+function JournalEntryForm({ restId, setRestId }) {
   const navigate = useNavigate();
   const [username, setUsername] = React.useState('');
   const [accomplishment, setAccomplishment] = React.useState('');
@@ -153,7 +153,8 @@ function JournalEntryForm({ restId }) {
     navigate("/past");
   };
 
-  const goToLogin = () => {
+  const goToLogin = (id) => {
+    setRestId(id)
     navigate("/login");
   };
 

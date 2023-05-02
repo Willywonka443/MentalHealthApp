@@ -23,7 +23,7 @@ const Login = ({restId, setRestId}) => {
                 <br />
                 <TextField id="password" label="Password:" type="password" variant="standard" />
                 <br />
-                <Button size="small" onClick={(e) => goToHome()}>Login</Button>
+                <Button size="small" onClick={() => goToHome()}>Login</Button>
                 <br />
                 <Button variant="text" aria-label="Create Account">Create Account</Button>
               </form>
