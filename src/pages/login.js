@@ -8,8 +8,8 @@ import Button from '@mui/material/Button';
 
 const Login = ({restId, setRestId}) => {
     const navigate = useNavigate()
-    const goToHome = (id) => {
-        setRestId(id)
+    const goToHome = () => {
+        
         navigate("/basepage")
       }
       return (

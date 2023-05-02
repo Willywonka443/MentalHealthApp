@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, IconButton } from '@mui/material';
+import { IconButton, AppBar, Toolbar, Typography } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import HomeIcon from '@mui/icons-material/Home';
 import SelfImprovementIcon from '@mui/icons-material/SelfImprovement';
@@ -18,7 +18,7 @@ const Calm = ({ restId }) => {
     navigate("/basepage")
   }
 
-  const gotToPast = () => {
+  const goToPast = () => {
 
     navigate("/past")
   }
@@ -31,28 +31,35 @@ const Calm = ({ restId }) => {
 
   return (
     <>
-      <center>
+      
 
-
-        <center><h1>Calm{restId}</h1></center>
-        <div>
-
-        </div>
-        <Stack direction="row" justifyContent="center" spacing={.5}>
-          <IconButton size="small" variant="contained" color="primary" onClick={() => goToHome()}><HomeIcon />Home</IconButton>
-          <IconButton size="small" variant="contained" color="primary" disabled><SelfImprovementIcon />Calm</IconButton>
-          <IconButton size="small" variant="contained" color="primary" onClick={() => goToJournal()}><CreateIcon />New Journal</IconButton>
-          <IconButton size="small" variant="contained" color="primary" onClick={() => gotToPast()}><AutoStoriesIcon /> Past Journals</IconButton>
-          <IconButton size="small" variant="contained" color="primary" onClick={() => goToLogin()}><LogoutIcon /></IconButton>
-
-        </Stack>
+        <AppBar position="sticky">
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Calm{restId}
+          </Typography>
+          <IconButton size="large" color="inherit" onClick={() => goToHome()}><HomeIcon /></IconButton>
+          <IconButton size="large" color="inherit" disabled>
+            <SelfImprovementIcon />
+          </IconButton>
+          <IconButton size="large" color="inherit" onClick={() => goToJournal()}>
+            <CreateIcon />
+          </IconButton>
+          <IconButton size="large" color="inherit" onClick={() => goToPast()}>
+            <AutoStoriesIcon />
+          </IconButton>
+          <IconButton size="large" color="inherit" onClick={() => goToLogin()}>
+            <LogoutIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
         <div>
 
           <p>Work in Progress</p>
 
         </div>
 
-      </center>
+      
     </>
   )
 }

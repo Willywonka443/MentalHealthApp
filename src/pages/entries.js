@@ -2,13 +2,11 @@ import React from 'react';
 import { useMutation, gql } from '@apollo/client';
 import { ApolloProvider } from '@apollo/react-hooks';
 import client from '../apolloClient'
-import { CardContent, IconButton, Stack, Card } from '@mui/material';
 import { useNavigate } from "react-router-dom";
-import HomeIcon from '@mui/icons-material/Home';
-import SelfImprovementIcon from '@mui/icons-material/SelfImprovement';
-import CreateIcon from '@mui/icons-material/Create';
-import AutoStoriesIcon from '@mui/icons-material/AutoStories';
-import LogoutIcon from '@mui/icons-material/Logout';
+import { AppBar, Button, Card, CardContent, Grid, IconButton, Toolbar, Typography, TextField, FormLabel } from '@mui/material';
+import { AutoStories as AutoStoriesIcon, Create as CreateIcon, Home as HomeIcon, Logout as LogoutIcon, SelfImprovement as SelfImprovementIcon, } from '@mui/icons-material';
+
+
 
 
 const CREATE_JOURNAL_ENTRY = gql`
@@ -104,19 +102,19 @@ function JournalEntryForm({ restId, setRestId }) {
       const published = data.createJournal.stage;
       console.log(entryId);
       console.log(published);
-      
+
       await publishJournalEntry({ variables: { id: entryId }, data: { stage: published } });
 
       console.log(published);
-      
+
       console.log('Journal entry published successfully');
     } catch (error) {
       console.error('Error occurred while publishing journal entry:', error);
     }
-  
-      
-      // Handle error here
-    
+
+
+    // Handle error here
+
   };
   React.useEffect(() => {
     if (createError) {
@@ -154,66 +152,126 @@ function JournalEntryForm({ restId, setRestId }) {
   };
 
   const goToLogin = (id) => {
-    
+
     navigate("/login");
   };
 
   return (
     <>
-      <center>
-        <div>
-          <h1>Journal Entry {restId} </h1>
-        </div>
-        <Stack direction="row" justifyContent="center" spacing={.5}>
-          <IconButton size="small" variant="contained" color="primary" onClick={(e) => goToHome()}><HomeIcon />Home</IconButton>
-          <IconButton size="small" variant="contained" color="primary" onClick={(e) => goToCalm()}><SelfImprovementIcon />Calm</IconButton>
-          <IconButton size="small" variant="contained" color="primary" disabled><CreateIcon />New Journal</IconButton>
-          <IconButton size="small" variant="contained" color="primary" onClick={(e) => goToPast()}><AutoStoriesIcon /> Past Journals</IconButton>
-          <IconButton size="small" variant="contained" color="primary" onClick={(e) => goToLogin()}><LogoutIcon /></IconButton>
-        </Stack>
-        <Card sx={{ width: 650 }} style={{ backgroundColor: '#83C5BE' }}><CardContent>
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <form onSubmit={handleSubmit}>
-              <label>
-                What is one thing you accomplished today?<br /><br />
-                <textarea name="accomplishment" placeholder="Write your response here" cols="50" rows="3" style={{ resize: "none" }} value={accomplishment} onChange={(e) => setAccomplishment(e.target.value)} />
-              </label>
-              <br />
-              <label>
-                What is one thing you are grateful for today?<br /><br />
-                <textarea name="gratitude" placeholder="Write your response here" cols="50" rows="3" style={{ resize: "none" }} value={gratitude} onChange={(e) => setGratitude(e.target.value)} />
-              </label>
-              <br />
-              <label>
-                What is one thing you learned today?<br /><br />
-                <textarea name="learning" placeholder="Write your response here" cols="50" rows="3" style={{ resize: "none" }} value={learning} onChange={(e) => setLearning(e.target.value)} />
-              </label>
-              <br />
-              <label>
-                What is one thing you are looking forward to tomorrow?<br /><br />
-                <textarea name="lookingForward" placeholder="Write your response here" cols="50" rows="3" style={{ resize: "none" }} value={lookingForward} onChange={(e) => setLookingForward(e.target.value)} />
-              </label>
-              <br />
-              <label>
-                What is one thing you struggled with today?<br /><br />
-                <textarea name="struggle" placeholder="Write your response here" cols="50" rows="3" style={{ resize: "none" }} value={struggle} onChange={(e) => setStruggle(e.target.value)} />
-              </label>
-              <br />
-              <label>
-                What is your Username: <br /><br />
-                <textarea name="username" placeholder="Write your response here" cols="50" rows="2" style={{ resize: "none" }} value={username} onChange={(e) => setUsername(e.target.value)} />
-              </label>
-              <br />
-              <label>
-                Entry Date:<br /><br />
-                <input type="date" value={entryDate} onChange={(e) => setEntryDate(e.target.value)} />
-              </label>
-              <br />
-              <button type="submit">Submit</button>
-            </form>
-          </div>
-        </CardContent></Card><br />
-      </center>
+      <AppBar position="sticky">
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Journal {restId}
+          </Typography>
+          <IconButton size="large" color="inherit" onClick={() => goToHome()}>
+            <HomeIcon />
+          </IconButton>
+          <IconButton size="large" color="inherit" onClick={() => goToCalm()}>
+            <SelfImprovementIcon />
+          </IconButton>
+          <IconButton size="large" color="inherit" disabled>
+            <CreateIcon />
+          </IconButton>
+          <IconButton size="large" color="inherit" onClick={() => goToPast()}>
+            <AutoStoriesIcon />
+          </IconButton>
+          <IconButton size="large" color="inherit" onClick={() => goToLogin()}>
+            <LogoutIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+      
+        <Card sx={{ width: '100%', bgcolor: '#83C5BE',display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
+          <CardContent>
+            <Grid container spacing={2} justifyContent="center">
+              <Grid item xs={12} md={6}>
+                <Typography variant="h5" component="h2" align="center" gutterBottom>
+                  Daily Journal Entry
+                </Typography>
+              </Grid>
+              <Grid item xs={10} >
+              <FormLabel>What is one thing you accomplished today?</FormLabel>
+                <TextField
+                  name="accomplishment"
+                  placeholder="Type Here"
+                  multiline
+                  fullWidth
+                  value={accomplishment}
+                  onChange={(e) => setAccomplishment(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={10} >
+                <FormLabel>What is one thing you are grateful for today?</FormLabel>
+                <TextField
+                  name="gratitude"
+                  placeholder="Type Here"
+                  multiline
+                  fullWidth
+                  value={gratitude}
+                  onChange={(e) => setGratitude(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={10} >
+                <FormLabel>What is one thing you learned today?</FormLabel>
+                <TextField
+                  name="learning"
+                  placeholder="Type Here"
+                  multiline
+                  fullWidth
+                  value={learning}
+                  onChange={(e) => setLearning(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={10} >
+              <FormLabel>What is one thing you are looking forward to tomorrow?</FormLabel>
+                <TextField
+                  name="lookingForward"
+                  placeholder="Type Here"
+                  multiline
+                  fullWidth
+                  value={lookingForward}
+                  onChange={(e) => setLookingForward(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={10} >
+              <FormLabel>What is one thing you struggled with today?</FormLabel>
+                <TextField
+                  name="struggle"
+                  placeholder="Type Here"
+                  multiline
+                  fullWidth
+                  value={struggle}
+                  onChange={(e) => setStruggle(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={10} >
+              <FormLabel>What is your username?</FormLabel>
+                <TextField
+                  name="username"
+                  placeholder="Type Here"
+                  fullWidth
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </Grid>
+
+              <Grid item xs={10} >
+              <FormLabel>What is Today's Date?</FormLabel>
+                <TextField
+                  name="entryDate"
+                  type="date"
+                  fullWidth
+                  value={entryDate}
+                  onChange={(e) => setEntryDate(e.target.value)}
+                />
+              </Grid>
+
+              <Grid item xs={10} sx={{ textAlign: 'center' }}>
+                <Button variant="contained" onClick={handleSubmit}>Submit</Button>
+              </Grid>
+            </Grid>
+          </CardContent></Card>
+
     </>
   );
 }

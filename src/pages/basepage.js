@@ -1,5 +1,5 @@
 import React from 'react';
-import {Stack, IconButton} from '@mui/material';
+import {AppBar, Toolbar, Typography, IconButton} from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import HomeIcon from '@mui/icons-material/Home';
 import SelfImprovementIcon from '@mui/icons-material/SelfImprovement';
@@ -10,50 +10,48 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 const Basepage = ({restId, setRestId}) => {
     const navigate = useNavigate()
-    const goToJournals = (id) => {   
+    const goToJournal = (id) => {   
         
         navigate("/entries")
-      }
+    }
     
     const goToCalm = (id) => {  
               
         navigate("/calm")
-      }
+    }
       
-    const gotToPast = (id) =>{
+    const goToPast = (id) =>{
         
         navigate("/past")
-      }
+    }
 
     const goToLogin = (id) => {
         
         navigate("/login");
-      }
-    
-   
+    }
 
     return (
         <>
-            
-                <center>
-
-
-                    <center><h1>Home {restId}</h1></center>
-                    <div>
-                    </div>
-                    <Stack direction="row" justifyContent="center" spacing={.5}>
-                    <IconButton size="small" variant="contained" disabled ><HomeIcon/>Home</IconButton>
-                    <IconButton size="small" variant="contained"  color="primary" onClick={() => goToCalm()}><SelfImprovementIcon/>Calm</IconButton>
-                    <IconButton size="small" variant="contained"  color="primary" onClick={() => goToJournals()}><CreateIcon/>New Journal</IconButton>
-                    <IconButton size="small" variant="contained"  color="primary" onClick={() => gotToPast()}><AutoStoriesIcon /> Past Journals</IconButton>
-                    <IconButton size="small" variant="contained"  color="primary" onClick={() => goToLogin()}><LogoutIcon/></IconButton>
-                    </Stack>
-                    
-                    
-                
-                </center>
-
-
+            <AppBar position="sticky">
+                <Toolbar>
+                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                        Home {restId}
+                    </Typography>
+                    <IconButton size="large" color="inherit" disabled><HomeIcon/></IconButton>
+                    <IconButton size="large" color="inherit" onClick={() => goToCalm()}>
+                        <SelfImprovementIcon />
+                    </IconButton>
+                    <IconButton size="large" color="inherit" onClick={() => goToJournal()}>
+                        <CreateIcon />
+                    </IconButton>
+                    <IconButton size="large" color="inherit" onClick={() => goToPast()}>
+                        <AutoStoriesIcon />
+                    </IconButton>
+                    <IconButton size="large" color="inherit" onClick={() => goToLogin()}>
+                        <LogoutIcon />
+                    </IconButton>
+                </Toolbar>
+            </AppBar>
         </>
     )
 }
