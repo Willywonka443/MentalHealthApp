@@ -40,6 +40,7 @@ const Calm = ({ restId }) => {
         </div>
         <Stack direction="row" justifyContent="center" spacing={.5}>
           <IconButton size="small" variant="contained" color="primary" onClick={() => goToHome()}><HomeIcon />Home</IconButton>
+          <IconButton size="small" variant="contained" color="primary" disable><SelfImprovementIcon />Calm</IconButton>
           <IconButton size="small" variant="contained" color="primary" onClick={() => goToJournal()}><CreateIcon />New Journal</IconButton>
           <IconButton size="small" variant="contained" color="primary" onClick={() => gotToPast()}><AutoStoriesIcon /> Past Journals</IconButton>
           <IconButton size="small" variant="contained" color="primary" onClick={() => goToLogin()}><LogoutIcon /></IconButton>
