@@ -10,6 +10,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 const Calm = ({restId, setRestId}) => {
     const navigate = useNavigate()
     const goToJournal = () => {
+        
         navigate("/entries")
       }
     
@@ -18,11 +19,12 @@ const Calm = ({restId, setRestId}) => {
       }
     
     const gotToPast = () =>{
+        
         navigate("/past")
     }
 
-    const goToLogin = (id) => {
-        setRestId(id)
+    const goToLogin = () => {
+        
         navigate("/login");
       }
 
@@ -40,7 +42,7 @@ const Calm = ({restId, setRestId}) => {
                     <IconButton size="small" variant="contained"  color="primary" onClick={(e) => goToHome()}><HomeIcon/>Home</IconButton>
                     <IconButton size="small" variant="contained"  color="primary" disabled><SelfImprovementIcon/>Calm</IconButton>
                     <IconButton size="small" variant="contained"  color="primary" onClick={(e) => goToJournal()}><CreateIcon/>New Journal</IconButton>
-                    <IconButton size="small" variant="contained"  color="primary" onClick={(e) => gotToPast()}><AutoStoriesIcon /> Past Journals</IconButton>
+                    <IconButton size="small" variant="contained"  color="primary" onClick={(e) => gotToPast(setRestId)}><AutoStoriesIcon /> Past Journals</IconButton>
                     <IconButton size="small" variant="contained"  color="primary" onClick={(e) => goToLogin()}><LogoutIcon/></IconButton>
                     </Stack>
                     <div>
