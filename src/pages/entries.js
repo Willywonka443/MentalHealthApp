@@ -180,98 +180,98 @@ function JournalEntryForm({ restId, setRestId }) {
           </IconButton>
         </Toolbar>
       </AppBar>
-      
-        <Card sx={{ width: '100%', bgcolor: '#83C5BE',display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
-          <CardContent>
-            <Grid container spacing={2} justifyContent="center">
-              <Grid item xs={12} md={6}>
-                <Typography variant="h5" component="h2" align="center" gutterBottom>
-                  Daily Journal Entry
-                </Typography>
-              </Grid>
-              <Grid item xs={10} >
-              <FormLabel>What is one thing you accomplished today?</FormLabel>
-                <TextField
-                  name="accomplishment"
-                  placeholder="Type Here"
-                  multiline
-                  fullWidth
-                  value={accomplishment}
-                  onChange={(e) => setAccomplishment(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={10} >
-                <FormLabel>What is one thing you are grateful for today?</FormLabel>
-                <TextField
-                  name="gratitude"
-                  placeholder="Type Here"
-                  multiline
-                  fullWidth
-                  value={gratitude}
-                  onChange={(e) => setGratitude(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={10} >
-                <FormLabel>What is one thing you learned today?</FormLabel>
-                <TextField
-                  name="learning"
-                  placeholder="Type Here"
-                  multiline
-                  fullWidth
-                  value={learning}
-                  onChange={(e) => setLearning(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={10} >
-              <FormLabel>What is one thing you are looking forward to tomorrow?</FormLabel>
-                <TextField
-                  name="lookingForward"
-                  placeholder="Type Here"
-                  multiline
-                  fullWidth
-                  value={lookingForward}
-                  onChange={(e) => setLookingForward(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={10} >
-              <FormLabel>What is one thing you struggled with today?</FormLabel>
-                <TextField
-                  name="struggle"
-                  placeholder="Type Here"
-                  multiline
-                  fullWidth
-                  value={struggle}
-                  onChange={(e) => setStruggle(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={10} >
-              <FormLabel>What is your username?</FormLabel>
-                <TextField
-                  name="username"
-                  placeholder="Type Here"
-                  fullWidth
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-              </Grid>
 
-              <Grid item xs={10} >
-              <FormLabel>What is Today's Date?</FormLabel>
-                <TextField
-                  name="entryDate"
-                  type="date"
-                  fullWidth
-                  value={entryDate}
-                  onChange={(e) => setEntryDate(e.target.value)}
-                />
-              </Grid>
-
-              <Grid item xs={10} sx={{ textAlign: 'center' }}>
-                <Button variant="contained" onClick={handleSubmit}>Submit</Button>
-              </Grid>
+      <Card sx={{ width: '100%', bgcolor: '#83C5BE', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
+        <CardContent>
+          <Grid container spacing={0} justifyContent="center" sx={{ height: "100%", overflowY: 'auto' }}>
+            <Grid item xs={12} md={6} sx={{ height: 'auto', mb: 2 }}>
+              <Typography variant="h5" component="h2" align="center" gutterBottom>
+                Daily Journal Entry
+              </Typography>
             </Grid>
-          </CardContent></Card>
+            <Grid item xs={10} sx={{ overflowY: 'auto' }} >
+              <FormLabel>What is one thing you accomplished today?</FormLabel>
+              <TextField
+                name="accomplishment"
+                placeholder="Type Here"
+                multiline
+                fullWidth
+                value={accomplishment}
+                onChange={(e) => setAccomplishment(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={10} sx={{ mt: 2 }}>
+              <FormLabel>What is one thing you are grateful for today?</FormLabel>
+              <TextField
+                name="gratitude"
+                placeholder="Type Here"
+                multiline
+                fullWidth
+                value={gratitude}
+                onChange={(e) => setGratitude(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={10} sx={{ mt: 2 }}>
+              <FormLabel>What is one thing you learned today?</FormLabel>
+              <TextField
+                name="learning"
+                placeholder="Type Here"
+                multiline
+                fullWidth
+                value={learning}
+                onChange={(e) => setLearning(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={10} sx={{ mt: 2 }}>
+              <FormLabel>What is one thing you are looking forward to tomorrow?</FormLabel>
+              <TextField
+                name="lookingForward"
+                placeholder="Type Here"
+                multiline
+                fullWidth
+                value={lookingForward}
+                onChange={(e) => setLookingForward(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={10} sx={{ mt: 2 }}>
+              <FormLabel>What is one thing you struggled with today?</FormLabel>
+              <TextField
+                name="struggle"
+                placeholder="Type Here"
+                multiline
+                fullWidth
+                value={struggle}
+                onChange={(e) => setStruggle(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={10} sx={{ mt: 2 }}>
+              <FormLabel>What is your username?</FormLabel>
+              <TextField
+                name="username"
+                placeholder="Type Here"
+                fullWidth
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </Grid>
 
+            <Grid item xs={10} sx={{ mt: 2 }}>
+              <FormLabel>What is Today's Date?</FormLabel>
+              <TextField
+                name="entryDate"
+                type="date"
+                fullWidth
+                value={entryDate}
+                onChange={(e) => setEntryDate(e.target.value)}
+              />
+            </Grid>
+
+            <Grid item xs={10} sx={{ mt: 2, textAlign: 'center' }}>
+              <Button variant="contained" onClick={handleSubmit}>Submit</Button>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
     </>
   );
 }
