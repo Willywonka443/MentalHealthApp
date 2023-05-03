@@ -7,10 +7,11 @@ import { IconButton, Grid, Card, CardContent, Typography, Box, AppBar, Toolbar }
 import CreateIcon from "@mui/icons-material/Create";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import LogoutIcon from '@mui/icons-material/Logout';
+import React from "react";
 
 const JOURNALS_QUERY = gql`
-  query {
-    journals {
+  query Journals($limit: Int) {
+    journals(first: $limit) {
       id
       username
       accomplishment
@@ -23,9 +24,12 @@ const JOURNALS_QUERY = gql`
   }
 `;
 
+
+
 export default function Past({ restId, setRestId }) {
   const navigate = useNavigate();
-
+  
+    
   const goToHome = () => {
     navigate("/basepage");
   };
@@ -42,7 +46,8 @@ export default function Past({ restId, setRestId }) {
     navigate("/login");
   }
 
-  const { loading, error, data } = useQuery(JOURNALS_QUERY, { client });
+  const { loading, error, data } = useQuery(JOURNALS_QUERY, { client, variables: { limit: 25 }  ,  pollInterval: 5000});
+  
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :</p>;
@@ -58,6 +63,7 @@ export default function Past({ restId, setRestId }) {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Past Journals{restId}
           </Typography>
+          
           <IconButton size="large" color="inherit" onClick={() => goToHome()}><HomeIcon /></IconButton>
           <IconButton size="large" color="inherit" onClick={() => goToCalm()}>
             <SelfImprovementIcon />
@@ -73,6 +79,7 @@ export default function Past({ restId, setRestId }) {
           </IconButton>
         </Toolbar>
       </AppBar>
+      
       <Grid container spacing={2} sx={{ marginTop: "2rem" }}>
   {data.journals.map((journal) => (
     <Grid item xs={12} sm={6} md={4} key={journal.id}>
