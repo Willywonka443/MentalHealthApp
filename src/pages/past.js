@@ -3,7 +3,7 @@ import { gql, useQuery } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import SelfImprovementIcon from "@mui/icons-material/SelfImprovement";
-import { IconButton, Grid, Card, CardContent, Typography, Box, AppBar, Toolbar } from "@mui/material";
+import { IconButton, Grid, Card, CardContent, Typography, Box, AppBar, Toolbar, Button } from "@mui/material";
 import CreateIcon from "@mui/icons-material/Create";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -46,8 +46,13 @@ export default function Past({ restId, setRestId }) {
     navigate("/login");
   }
 
-  const { loading, error, data } = useQuery(JOURNALS_QUERY, { client, variables: { limit: 25 }  ,  pollInterval: 5000});
+  const { loading, error, data, refetch  } = useQuery(JOURNALS_QUERY, { client, variables: { limit: 25 } });
   
+  
+  const handleRefresh = () => {
+    window.location.reload();
+    refetch();
+  };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :</p>;
@@ -79,7 +84,11 @@ export default function Past({ restId, setRestId }) {
           </IconButton>
         </Toolbar>
       </AppBar>
-      
+      <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
+      <Button variant="contained" onClick={handleRefresh}>
+        Refresh
+      </Button>
+    </Box>
       <Grid container spacing={2} sx={{ marginTop: "2rem" }}>
   {data.journals.map((journal) => (
     <Grid item xs={12} sm={6} md={4} key={journal.id}>
