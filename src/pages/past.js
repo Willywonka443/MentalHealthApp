@@ -46,7 +46,7 @@ export default function Past({ restId, setRestId }) {
     navigate("/login");
   }
 
-  const { loading, error, data, refetch  } = useQuery(JOURNALS_QUERY, { client, variables: { limit: 25 } });
+  const { loading, error, data } = useQuery(JOURNALS_QUERY, { client, variables: { limit: 25 } });
   
   
  
