@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState}from 'react';
 import { useMutation, gql } from '@apollo/client';
 import { ApolloProvider } from '@apollo/react-hooks';
 import client from '../apolloClient'
@@ -73,6 +73,8 @@ function JournalEntryForm({ restId, setRestId }) {
   const [lookingForward, setLookingForward] = React.useState('');
   const [struggle, setStruggle] = React.useState('');
   const [entryDate, setEntryDate] = React.useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
 
   const [createJournalEntry, { loading: createLoading, error: createError }] = useMutation(CREATE_JOURNAL_ENTRY, { client });
   const [publishJournalEntry, { loading: publishLoading, error: publishError }] = useMutation(PUBLISH_JOURNAL_ENTRY, { client });
@@ -100,21 +102,27 @@ function JournalEntryForm({ restId, setRestId }) {
       console.log('createJournalEntry data:', data);
       const entryId = data.createJournal.id;
       const published = data.createJournal.stage;
+      
       console.log(entryId);
       console.log(published);
-
+  
       await publishJournalEntry({ variables: { id: entryId }, data: { stage: published } });
-
+  
       console.log(published);
-
+      setIsSubmitted(true);
+      
+      setUsername('');
+      setAccomplishment('');
+      setGratitude('');
+      setLearning('');
+      setLookingForward('');
+      setStruggle('');
+      setEntryDate('');
+  
       console.log('Journal entry published successfully');
     } catch (error) {
       console.error('Error occurred while publishing journal entry:', error);
     }
-
-
-    // Handle error here
-
   };
   React.useEffect(() => {
     if (createError) {
@@ -181,15 +189,17 @@ function JournalEntryForm({ restId, setRestId }) {
         </Toolbar>
       </AppBar>
 
-      <Card sx={{ width: '100%', bgcolor: '#83C5BE', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
-        <CardContent>
+      <Card sx={{ width: '100%', bgcolor: '#83C5BE', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}> 
+        <CardContent >
           <Grid container spacing={0} justifyContent="center" sx={{ height: "100%", overflowY: 'auto' }}>
             <Grid item xs={12} md={6} sx={{ height: 'auto', mb: 2 }}>
               <Typography variant="h5" component="h2" align="center" gutterBottom>
                 Daily Journal Entry
               </Typography>
             </Grid>
+            
             <Grid item xs={10} sx={{ overflowY: 'auto' }} >
+             
               <FormLabel>What is one thing you accomplished today?</FormLabel>
               <TextField
                 name="accomplishment"
@@ -265,10 +275,16 @@ function JournalEntryForm({ restId, setRestId }) {
                 onChange={(e) => setEntryDate(e.target.value)}
               />
             </Grid>
-
+              
             <Grid item xs={10} sx={{ mt: 2, textAlign: 'center' }}>
-              <Button variant="contained" onClick={handleSubmit}>Submit</Button>
+              <Button variant="contained" onClick={handleSubmit}>
+                Submit
+              </Button>
+              {isSubmitted && (
+                <p style={{ color: 'green' }}>Success! Your form has been submitted.</p>
+              )}
             </Grid>
+            
           </Grid>
         </CardContent>
       </Card>
