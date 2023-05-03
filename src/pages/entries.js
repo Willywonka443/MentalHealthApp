@@ -1,4 +1,4 @@
-import React, {useState}from 'react';
+import React, { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
 import { ApolloProvider } from '@apollo/react-hooks';
 import client from '../apolloClient'
@@ -102,15 +102,15 @@ function JournalEntryForm({ restId, setRestId }) {
       console.log('createJournalEntry data:', data);
       const entryId = data.createJournal.id;
       const published = data.createJournal.stage;
-      
+
       console.log(entryId);
       console.log(published);
-  
+
       await publishJournalEntry({ variables: { id: entryId }, data: { stage: published } });
-  
+
       console.log(published);
       setIsSubmitted(true);
-      
+
       setUsername('');
       setAccomplishment('');
       setGratitude('');
@@ -118,7 +118,7 @@ function JournalEntryForm({ restId, setRestId }) {
       setLookingForward('');
       setStruggle('');
       setEntryDate('');
-  
+
       console.log('Journal entry published successfully');
     } catch (error) {
       console.error('Error occurred while publishing journal entry:', error);
@@ -189,7 +189,7 @@ function JournalEntryForm({ restId, setRestId }) {
         </Toolbar>
       </AppBar>
 
-      <Card sx={{ width: '100%', bgcolor: '#83C5BE', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}> 
+      <Card sx={{ width: '100%', bgcolor: '#83C5BE', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
         <CardContent >
           <Grid container spacing={0} justifyContent="center" sx={{ height: "100%", overflowY: 'auto' }}>
             <Grid item xs={12} md={6} sx={{ height: 'auto', mb: 2 }}>
@@ -197,9 +197,9 @@ function JournalEntryForm({ restId, setRestId }) {
                 Daily Journal Entry
               </Typography>
             </Grid>
-            
+
             <Grid item xs={10} sx={{ overflowY: 'auto' }} >
-             
+
               <FormLabel>What is one thing you accomplished today?</FormLabel>
               <TextField
                 name="accomplishment"
@@ -233,17 +233,6 @@ function JournalEntryForm({ restId, setRestId }) {
               />
             </Grid>
             <Grid item xs={10} sx={{ mt: 2 }}>
-              <FormLabel>What is one thing you are looking forward to tomorrow?</FormLabel>
-              <TextField
-                name="lookingForward"
-                placeholder="Type Here"
-                multiline
-                fullWidth
-                value={lookingForward}
-                onChange={(e) => setLookingForward(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={10} sx={{ mt: 2 }}>
               <FormLabel>What is one thing you struggled with today?</FormLabel>
               <TextField
                 name="struggle"
@@ -252,6 +241,17 @@ function JournalEntryForm({ restId, setRestId }) {
                 fullWidth
                 value={struggle}
                 onChange={(e) => setStruggle(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={10} sx={{ mt: 2 }}>
+              <FormLabel>What is one thing you are looking forward to tomorrow?</FormLabel>
+              <TextField
+                name="lookingForward"
+                placeholder="Type Here"
+                multiline
+                fullWidth
+                value={lookingForward}
+                onChange={(e) => setLookingForward(e.target.value)}
               />
             </Grid>
             <Grid item xs={10} sx={{ mt: 2 }}>
@@ -275,7 +275,7 @@ function JournalEntryForm({ restId, setRestId }) {
                 onChange={(e) => setEntryDate(e.target.value)}
               />
             </Grid>
-              
+
             <Grid item xs={10} sx={{ mt: 2, textAlign: 'center' }}>
               <Button variant="contained" onClick={handleSubmit}>
                 Submit
@@ -284,7 +284,7 @@ function JournalEntryForm({ restId, setRestId }) {
                 <p style={{ color: 'green' }}>Success! Your form has been submitted.</p>
               )}
             </Grid>
-            
+
           </Grid>
         </CardContent>
       </Card>
