@@ -104,6 +104,9 @@ const Calm = ({ restId }) => {
       setIndexS((prevIndex) => (prevIndex === sounds.length - 1 ? 0 : prevIndex + 1));
     };
   
+    const handleShowRestId = () => {
+      alert(`restId: ${restId}`);
+    };
   
   return (
     <>
@@ -129,6 +132,8 @@ const Calm = ({ restId }) => {
           </IconButton>
         </Toolbar>
       </AppBar>
+      <p>restId: {restId}</p>
+      <button onClick={handleShowRestId}>Show restId</button>
       <Grid container alignItems="center" justifyContent="center" style={{ marginTop: '50px' }}>
   <Grid item xs={12} sm={6} md={4} sx={{ maxWidth: '300px', mx: 'auto' }}>
     <Card variant="outlined" sx={{ borderRadius: '20px' }}>

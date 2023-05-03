@@ -12,6 +12,7 @@ const Login = ({restId, setRestId}) => {
         
         navigate("/basepage")
       }
+    
       return (
         <center>
           <center><h1>Welcome {restId}</h1></center>
