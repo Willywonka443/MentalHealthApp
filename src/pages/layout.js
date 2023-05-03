@@ -10,7 +10,7 @@ import JournalEntryForm from './entries';
 
 
 const Layout = () => {
-    const [restId, setRestId] = useState()
+    const [restId, setRestId] = useState('')
     
     console.log('restId:', restId);
 
