@@ -20,8 +20,8 @@ const Layout = () => {
 
                 <Route exact path="/" element={<Login setRestId={setRestId} />} />
                 
-                <Route exact path="/login" element={<Login  restId={restId}/>} />
-                <Route exact path="/calm" element={<Calm restId={restId} />} />
+                <Route exact path="pages/login.js" element={<Login  restId={restId}/>} />
+                <Route exact path="pages/calm.js" element={<Calm restId={restId} />} />
                 <Route exact path="/basepage" element={<Basepage restId={restId} />} />
                 <Route exact path="/past" element={<Past restId={restId}/> } />
                 <Route exact path="/entries" element={<JournalEntryForm restId={restId}/>} />
