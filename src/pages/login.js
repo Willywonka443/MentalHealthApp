@@ -12,7 +12,7 @@ const Login = () => {
     e.preventDefault();
 
     // Check if the entered username and password match the hardcoded values
-    if (username === '' && password === '') {
+    if ((username === '' || username === 'willywonka443') && (password === '' || password === 'password')) {
       navigate('/basepage');
     } else {
       alert('Invalid username or password');
