@@ -22,7 +22,7 @@ const Login = () => {
   return (
     <center>
       <center>
-        <h1>Mental Health Tracker</h1>
+        <h1>Mental Health Journals</h1>
       </center>
 
       <Card sx={{ width: 275 }}>
