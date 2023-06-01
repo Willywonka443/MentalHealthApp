@@ -21,7 +21,7 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color:  #0047ab;
 }
 
 .App-link {
@@ -42,29 +42,36 @@ h1 {
   font-family: Verdana, sans-serif;
 }
 
-p.login{
+p.login {
   margin: auto;
   width: 50%;
   border: 3px solid #83C5BE;
   padding: 10px;
   margin-top: 100px;
-  background-color:#EDF6F9 ;
-  
+  background-color: #0047ab;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #023E8A;
 }
 
-html{
-  background-color: #FFDDD2;
-}
 
-buttons:hover:not(.active) {
-  background-color: #83C5BE;
-  border-color: #006D77;
+button:hover:not(.active) {
+  background-color: #6495ed;
+  border-color: #0047ab;
   color: black;
-  
-}
-buttons.active{
-  background-color : #E29578;
 }
 
-
-/*  https://coolors.co/palette/006d77-83c5be-edf6f9-ffddd2-e29578 */
+button.active {
+  background-color: #E29578;
+}
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
