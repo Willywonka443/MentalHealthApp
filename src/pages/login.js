@@ -34,13 +34,12 @@ const Login = () => {
   // Callback function for successful login
   const handleLoginCompleted = (data) => {
     const login = data?.logins[0];
-
+  
     if (login) {
       console.log('Login Successful!');
       sessionStorage.setItem('username', login.username);
-      sessionStorage.setItem('id', login.ID)
-      navigate(`/basepage?username=${login.username}`); // Pass username as a query parameter
-    
+      sessionStorage.setItem('id', login.id); // Store the user's ID
+      navigate(`/basepage?username=${login.username}`);
     } else {
       setError(true);
       setErrorMessage('Invalid username or password');

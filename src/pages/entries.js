@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMutation, gql } from '@apollo/client';
 import { ApolloProvider } from '@apollo/react-hooks';
 import client from '../apolloClient';
@@ -24,44 +24,45 @@ import {
 } from '@mui/icons-material';
 
 const CREATE_JOURNAL_ENTRY = gql`
-  mutation createJournal(
-    $id: ID
-    $accomplishment: String!
-    $gratitude: String!
-    $learning: String!
-    $lookingForward: String!
-    $struggle: String!
-    $entryDate: Date!
+mutation createJournal(
+  $accomplishment: String!
+  $gratitude: String!
+  $learning: String!
+  $lookingForward: String!
+  $struggle: String!
+  $entryDate: Date!
+  $username: String!  # Make sure this field exists in the mutation
+  $id: ID!
 
-  ) {
-    createJournal(
-      data: {
-        login: $id
-        accomplishment: $accomplishment
-        gratitude: $gratitude
-        learning: $learning
-        lookingForward: $lookingForward
-        struggle: $struggle
-        entryDate: $entryDate
-
-      }
-    ) {
-      id
-      login {
-        username
-        id
-      }
-      accomplishment
-      gratitude
-      learning
-      lookingForward
-      struggle
-      entryDate
-      stage
+) {
+  createJournal(
+    data: {
+      accomplishment: $accomplishment
+      gratitude: $gratitude
+      learning: $learning
+      lookingForward: $lookingForward
+      struggle: $struggle
+      entryDate: $entryDate
+      username: $username  # Make sure the field is included in the mutation
+      login: {connect: {id:$id}}
     }
+  ) {
+    id
+    login{
+      id
+    }
+    accomplishment
+    gratitude
+    learning
+    lookingForward
+    struggle
+    entryDate
+    stage
+    username
   }
-`;
+}
 
+`;
 const PUBLISH_JOURNAL_ENTRY = gql`
   mutation publishJournal($id: ID!) {
     publishJournal(where: { id: $id }, to: PUBLISHED) {
@@ -70,21 +71,9 @@ const PUBLISH_JOURNAL_ENTRY = gql`
   }
 `;
 
-const CONNECT_JOURNAL_TO_LOGIN = gql`
-  mutation connectJournalToLogin($journalId: ID!, $loginId: ID!) {
-    updateJournal(
-      where: { id: $id }
-      data: { login: { connect: { id: $id } } }
-    ) {
-      id
-      login {
-        id
-      }
-    }
-  }
-`;
 
-function JournalEntryForm({ restId, setRestId, username, id }) {
+
+function JournalEntryForm({ restId }) {
   const navigate = useNavigate();
   const [accomplishment, setAccomplishment] = useState('');
   const [gratitude, setGratitude] = useState('');
@@ -96,7 +85,17 @@ function JournalEntryForm({ restId, setRestId, username, id }) {
 
   const [createJournalEntry, { loading: createLoading, error: createError }] = useMutation(CREATE_JOURNAL_ENTRY, { client });
   const [publishJournalEntry, { loading: publishLoading, error: publishError }] = useMutation(PUBLISH_JOURNAL_ENTRY, { client });
-  const [connectJournalEntry, {loading: connectLoading, error: connectError}] = useMutation(CONNECT_JOURNAL_TO_LOGIN, {client});
+
+  const [storedUsername, setStoredUsername] = useState('');
+  const [storedId, setStoredId] = useState('');
+
+  useEffect(() => {
+    const username = sessionStorage.getItem('username');
+    const id = sessionStorage.getItem('id');
+
+    setStoredUsername(username || 'username');
+    setStoredId(id || 'id');
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -107,11 +106,8 @@ function JournalEntryForm({ restId, setRestId, username, id }) {
       return;
     }
     try {
-      const storedUsername = sessionStorage.getItem('username') || username;
-      const storedId = sessionStorage.getItem('id') || id;
       const { data } = await createJournalEntry({
         variables: {
-          id: storedId,
           username: storedUsername,
           accomplishment,
           gratitude,
@@ -119,38 +115,32 @@ function JournalEntryForm({ restId, setRestId, username, id }) {
           lookingForward,
           struggle,
           entryDate: isoDate,
-          login: { connect: { id: storedId } }, // Pass login as an object
+          id: storedId, // Pass the storedId as a variable
         },
       });
-  
+
       const entryId = data.createJournal.id;
       const published = data.createJournal.stage;
-  
+
       await publishJournalEntry({ variables: { id: entryId }, data: { stage: published } });
-  
-      await connectJournalEntry({
-        variables: {
-          journalId: entryId, // Corrected typo: jornalId -> journalId
-          loginId: storedId,
-        },
-      });
-  
+
       setIsSubmitted(true);
-  
+
       setAccomplishment('');
       setGratitude('');
       setLearning('');
       setLookingForward('');
       setStruggle('');
       setEntryDate('');
-  
+
       console.log('Journal entry published successfully');
+      console.log(storedId  )
     } catch (error) {
       console.error('Error occurred while publishing journal entry:', error);
     }
   };
 
-  if (createLoading || publishLoading || connectLoading) {
+  if (createLoading || publishLoading ) {
     return <p>Loading...</p>;
   }
 
@@ -162,9 +152,9 @@ function JournalEntryForm({ restId, setRestId, username, id }) {
     return <p>Error: {publishError?.message}</p>;
   }
 
-  if (connectError){
-    return <p>Error: {connectError?.message}</p>;
-  }
+  // if (connectError){
+  //   return <p>Error: {connectError?.message}</p>;
+  // }
 
   const goToHome = () => {
     navigate('/basepage');

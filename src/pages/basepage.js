@@ -67,6 +67,7 @@ export const Basepage = () => {
 
     const goToLogin = () => {
         sessionStorage.removeItem('username');
+        sessionStorage.removeItem('id');
         navigate('/login');
     };
 
