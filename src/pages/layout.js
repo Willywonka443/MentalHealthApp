@@ -6,13 +6,14 @@ import Calm from './calm';
 import Basepage from './basepage'
 import Past from './past'
 import JournalEntryForm from './entries';
+import CreateAccount from './account';
 
 
 
 const Layout = () => {
     const [restId, setRestId] = useState('')
     
-    console.log('restId:', restId);
+
 
     return (
 
@@ -27,6 +28,7 @@ const Layout = () => {
                 <Route exact path="/basepage" element={<Basepage restId={restId} />} />
                 <Route exact path="/past" element={<Past restId={restId}/> } />
                 <Route exact path="/entries" element={<JournalEntryForm restId={restId}/>} />
+                <Route exact path="/account" element={<CreateAccount restId={restId}/>} />
 
             </Routes>
 

@@ -1,62 +1,136 @@
-import { TextField, Card, CardContent } from '@mui/material';
+import { TextField, Button, Card, CardContent, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Button from '@mui/material/Button';
+import { Link } from 'react-router-dom';
+import { useLazyQuery } from '@apollo/client';
+import { gql } from '@apollo/client';
+import client from '../apolloClient';
+
+// GraphQL query for login
+const LOGIN_QUERY = gql`
+  query Login($username: String!, $password: String!) {
+    logins(where: { username: $username , password: $password }) {
+      username
+      password
+      id
+    }
+  }
+`;
 
 const Login = () => {
+  // State variables for username and password
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  // Hook to navigate to different routes
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+  // Callback function for successful login
+  const handleLoginCompleted = (data) => {
+    const login = data?.logins[0];
 
-    // Check if the entered username and password match the hardcoded values
-    if ((username === '' || username === 'willywonka443') && (password === '' || password === 'password')) {
-      navigate('/basepage');
+    if (login) {
+      console.log('Login Successful!');
+      sessionStorage.setItem('username', login.username);
+      sessionStorage.setItem('id', login.ID)
+      navigate(`/basepage?username=${login.username}`); // Pass username as a query parameter
+    
     } else {
-      alert('Invalid username or password');
+      setError(true);
+      setErrorMessage('Invalid username or password');
     }
   };
 
-  return (
-    <center>
-      <center>
-        <h1>Mental Health Journals</h1>
-      </center>
+  const handleLoginError = (error) => {
+    console.error('Login Error:', error);
+    setError(true);
+    setErrorMessage('An error occurred during login');
+  };
 
-      <Card sx={{ width: 275 }}>
-        <CardContent>
-          <form onSubmit={handleLogin}>
-            <TextField
-              id="username"
-              label="Username:"
-              variant="standard"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <br />
-            <TextField
-              id="password"
-              label="Password:"
-              type="password"
-              variant="standard"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <br />
-            <Button type="submit" size="small">
+  // Apollo Client hook for executing the login query
+  const [login, { loading }] = useLazyQuery(LOGIN_QUERY, {
+    client,
+    onCompleted: handleLoginCompleted,
+    onError: handleLoginError,
+  });
+
+  // Event handler for login form submission
+  const handleLogin = (e) => {
+    e.preventDefault();
+    setError(false);
+    setErrorMessage('');
+    login({ variables: { username, password } }); // Execute the login query
+  };
+
+    return (
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        background: 'linear-gradient(135deg, #0079BF, #3AAFA9, #D4DCE1)',
+        backgroundSize: '200% 200%',
+        animation:  'gradientAnimation 15s ease-in-out infinite'
+      }}>
+       <Card sx={{ width: 300, boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)' }}>
+          <CardContent>
+            <Typography variant="h5" component="div" sx={{ marginBottom: '1rem', color: '#333333' }}>
               Login
-            </Button>
-            <br />
-            <Button variant="text" aria-label="Create Account">
-              Create Account
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
-    </center>
-  );
-};
+            </Typography>
+            <form onSubmit={handleLogin}>
+              <TextField
+                id="username"
+                label="Username"
+                variant="outlined"
+                fullWidth
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                sx={{
+                  marginBottom: '1rem',
+                  borderColor: error ? 'red' : undefined,
+                }}
+              />
+              <TextField
+                id="password"
+                label="Password"
+                type="password"
+                variant="outlined"
+                fullWidth
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                sx={{
+                  marginBottom: '1rem',
+                  borderColor: error ? 'red' : undefined,
+                }}
+              />
+              {error && (
+                <Typography variant="body2" color="error" sx={{ marginBottom: '1rem' }}>
+                  {errorMessage}
+                </Typography>
+              )}
+              <Button
+                type="submit"
+                variant="contained"
+                fullWidth
+                disabled={loading}
+                sx={{ backgroundColor: '#3f51b5', color: '#ffffff', marginTop: '1rem' }}
+              >
+                {loading ? 'Logging in...' : 'Login'}
+              </Button>
+              <Link to="/account" style={{ textDecoration: 'none' }}>
+                <Button variant="text" fullWidth sx={{ color: '#3f51b5', marginTop: '0.5rem' }}>
+                  Create Account
+                </Button>
+              </Link>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  };
+
+
 
 export default Login;

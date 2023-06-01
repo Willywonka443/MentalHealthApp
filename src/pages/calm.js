@@ -6,8 +6,10 @@ import SelfImprovementIcon from '@mui/icons-material/SelfImprovement';
 import CreateIcon from '@mui/icons-material/Create';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { CssBaseline } from '@mui/material';
 
 const Calm = ({ restId }) => {
+  
   const navigate = useNavigate()
   const goToJournal = () => {
 
@@ -24,7 +26,7 @@ const Calm = ({ restId }) => {
   }
 
   const goToLogin = () => {
-
+    sessionStorage.removeItem('username'); 
     navigate("/login");
   }
 
@@ -109,23 +111,24 @@ const Calm = ({ restId }) => {
   return (
     <>
       
-
-        <AppBar position="sticky">
+      <CssBaseline />
+      <div style={{ background: ' #b0c4de', minHeight: '100vh' }}>
+        <AppBar position="sticky" sx={{ background: '#0047ab' }}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Calm{restId}
           </Typography>
-          <IconButton size="large" color="inherit" onClick={() => goToHome()}><HomeIcon /></IconButton>
-          <IconButton size="large" color="inherit" disabled>
+          <IconButton size="large" color="inherit"  onClick={() => goToHome()}><HomeIcon /></IconButton>
+          <IconButton size="large"  disabled>
             <SelfImprovementIcon />
           </IconButton>
-          <IconButton size="large" color="inherit" onClick={() => goToJournal()}>
+          <IconButton size="large"  color="inherit"  onClick={() => goToJournal()}>
             <CreateIcon />
           </IconButton>
-          <IconButton size="large" color="inherit" onClick={() => goToPast()}>
+          <IconButton size="large"   color="inherit"  onClick={() => goToPast()}>
             <AutoStoriesIcon />
           </IconButton>
-          <IconButton size="large" color="inherit" onClick={() => goToLogin()}>
+          <IconButton size="large" color="inherit"  onClick={() => goToLogin()}>
             <LogoutIcon />
           </IconButton>
         </Toolbar>
@@ -133,11 +136,28 @@ const Calm = ({ restId }) => {
       
       <Grid container alignItems="center" justifyContent="center" style={{ marginTop: '50px' }}>
   <Grid item xs={12} sm={6} md={4} sx={{ maxWidth: '300px', mx: 'auto' }}>
-    <Card variant="outlined" sx={{ borderRadius: '20px' }}>
+    <Card variant="outlined" sx={{ borderRadius: '20px', background: ' #87ceeb' }}>
       <CardContent>
-        <Button variant="contained" onClick={startBreathing} disabled={disableButton} sx={{ mt: 2, mb: 1 }}>
-          Start Breathing
-        </Button>
+      <Button
+  variant="contained"
+  onClick={startBreathing}
+  disabled={disableButton}
+  sx={{
+    mt: 2,
+    mb: 1,
+    color: '#fff', 
+    borderRadius: '4px',
+    padding: '8px 16px',
+    fontWeight: 'bold',
+    backgroundColor: ' #0047ab',
+    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+    '&:hover': {
+      backgroundColor: '#0047ab',
+    },
+  }}
+> 
+  Start Breathing
+</Button>
         {showBreathing && (
           <>
             <Typography variant="h4" component="p" sx={{ my: 3 }}>
@@ -155,8 +175,10 @@ const Calm = ({ restId }) => {
   maxWidth: 350, 
   mx: 'auto', 
   my: 2,
+  backgroundColor: ' #0047ab',
   borderRadius: '20px',
   boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)',
+  background: ' #87ceeb'
 }}>
   <CardMedia
     component="img"
@@ -166,6 +188,7 @@ const Calm = ({ restId }) => {
       height: '250px',
       objectFit: 'cover',
       borderRadius: '20px 20px 0 0',
+      background: ' #87ceeb'
     }}
   />
   <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -180,14 +203,42 @@ const Calm = ({ restId }) => {
     justifyContent: 'center',
     borderBottomLeftRadius: '20px',
     borderBottomRightRadius: '20px',
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    background: ' #87ceeb'
   }}>
-    <Button onClick={handlePrev} disabled={index === 0} sx={{ mr: 2 }}>
+    <Button   onClick={handlePrev}
+  disabled={index === 0}
+  sx={{
+    mr: 2,
+    backgroundColor: '#0047ab',
+    color: '#fff', 
+    borderRadius: '4px',
+    padding: '8px 16px',
+    fontWeight: 'bold',
+    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+    '&:hover': {
+      backgroundColor: '#6495ed',
+    },
+  }}>
       Prev
     </Button>
-    <Button onClick={handleNext} disabled={index === images.length - 1} sx={{ ml: 2 }}>
-      Next
-    </Button>
+    <Button
+  onClick={handleNext}
+  disabled={index === images.length - 1}
+  sx={{
+    ml: 2,
+    backgroundColor: '#0047ab',
+    color: '#fff', 
+    borderRadius: '4px',
+    padding: '8px 16px',
+    fontWeight: 'bold',
+    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+    '&:hover': {
+      backgroundColor: '#6495ed',
+    },
+  }}
+>
+  Next
+</Button>
   </CardActions>
 </Card>
 <Card sx={{ 
@@ -196,6 +247,7 @@ const Calm = ({ restId }) => {
       my: 2,
       borderRadius: '20px',
       boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)',
+      background: '#87ceeb'
     }}>
       <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <Typography variant="h5" gutterBottom>
@@ -216,21 +268,51 @@ const Calm = ({ restId }) => {
       </CardContent>
       <CardActions sx={{ 
         justifyContent: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.05)',
+        background: '#87ceeb'
       }}>
-        <Button onClick={handlePrev2} disabled={indexS === 0} sx={{ mr: 2 }}>
-          Prev
-        </Button>
+       <Button
+  onClick={handlePrev2}
+  disabled={indexS === 0}
+  sx={{
+    mr: 2,
+    backgroundColor: '#0047ab',
+    color: '#fff', 
+    borderRadius: '4px',
+    padding: '8px 16px',
+    fontWeight: 'bold',
+    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+    '&:hover': {
+      backgroundColor: '#6495ed',
+    },
+  }}
+>
+  Prev
+</Button>
         <Typography variant="caption" color="textSecondary">
           {indexS + 1} / {sounds.length}
         </Typography>
-        <Button onClick={handleNext2} disabled={indexS === sounds.length - 1} sx={{ ml: 2 }}>
-          Next
-        </Button>
+        <Button
+  onClick={handleNext2}
+  disabled={indexS === sounds.length - 1}
+  sx={{
+    ml: 2,
+    backgroundColor: '#0047ab',
+    color: '#fff', 
+    borderRadius: '4px',
+    padding: '8px 16px',
+    fontWeight: 'bold',
+    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+    '&:hover': {
+      backgroundColor: '#6495ed',
+    },
+  }}
+>
+  Next
+</Button>
       </CardActions>
     </Card>
 
-      
+      </div>
     </>
   )
 }
