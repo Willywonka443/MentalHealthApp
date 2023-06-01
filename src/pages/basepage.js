@@ -116,7 +116,7 @@ export const Basepage = () => {
 
 
                 <Typography variant="h4" component="h1" gutterBottom sx={{ marginLeft: '20px' }}>
-                    Welcome to Mental Health Tracker: {user}
+                    Welcome to PeacefulPulse: {user}
                 </Typography>
                 <ul>
                     <li>
