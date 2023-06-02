@@ -25,7 +25,7 @@ const JOURNALS_QUERY = gql`
       }
     }
   }
-`;  
+`;
 
 export default function Past({ restId, setRestId }) {
   const navigate = useNavigate();
@@ -65,51 +65,61 @@ export default function Past({ restId, setRestId }) {
 
   return (
     <>
-     <CssBaseline />
+      <CssBaseline />
       <div style={{ background: ' #b0c4de', minHeight: '100vh' }}>
-      <AppBar position="sticky" sx={{ background: '#0047ab' }}>
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Past Journals{restId}
-          </Typography>
-          <IconButton size="large"   color="inherit"  onClick={() => goToHome()}>
-            <HomeIcon />
-          </IconButton>
-          <IconButton size="large"   color="inherit"  onClick={() => goToCalm()}>
-            <SelfImprovementIcon />
-          </IconButton>
-          <IconButton size="large"   color="inherit"  onClick={() => goToJournal()}>
-            <CreateIcon />
-          </IconButton>
-          <IconButton size="large" disabled>
-            <AutoStoriesIcon />
-          </IconButton>
-          <IconButton size="large"   color="inherit"  onClick={() => goToLogin()}>
-            <LogoutIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
+        <AppBar position="sticky" sx={{ background: '#0047ab' }}>
+          <Toolbar>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              Past Journals{restId}
+            </Typography>
+            <IconButton size="large" color="inherit" onClick={() => goToHome()}>
+              <HomeIcon />
+            </IconButton>
+            <IconButton size="large" color="inherit" onClick={() => goToCalm()}>
+              <SelfImprovementIcon />
+            </IconButton>
+            <IconButton size="large" color="inherit" onClick={() => goToJournal()}>
+              <CreateIcon />
+            </IconButton>
+            <IconButton size="large" disabled>
+              <AutoStoriesIcon />
+            </IconButton>
+            <IconButton size="large" color="inherit" onClick={() => goToLogin()}>
+              <LogoutIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
 
-      <Grid container spacing={2} sx={{ marginTop: "2rem" }}>
-        {filteredJournals.map((journal) => (
-          <Grid item xs={12} sm={6} md={4} key={journal.id}>
-            <Card>
-              <CardContent>
-                <Box>
-                  <Typography variant="h6">{journal.entryDate}</Typography>
-                  <Typography variant="body1">1: {journal.accomplishment}</Typography>
-                  <Typography variant="body1">2: {journal.gratitude}</Typography>
-                  <Typography variant="body1">3: {journal.learning}</Typography>
-                  <Typography variant="body1">4: {journal.struggle}</Typography>
-                  <Typography variant="body1">5: {journal.lookingForward}</Typography>
-                  <Typography variant="caption">Username: {journal.login.username}</Typography> 
-                  
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+        <Grid container spacing={2} sx={{ marginTop: "2rem" }}>
+          {filteredJournals.map((journal) => (
+            <Grid item xs={12} sm={6} md={3} key={journal.id}>
+              <Card sx={{ width: '100%', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+                <CardContent>
+                  <Box sx={{ height: '100%' }}>
+                    <Typography variant="h6" sx={{ marginBottom: 2 }}>{journal.entryDate}</Typography>
+
+                    <Typography variant="body2" sx={{ fontWeight: 'bold', marginBottom: 1, fontSize: '0.9rem' }}>Accomplished:</Typography>
+                    <Typography variant="body2" sx={{ marginBottom: 2, fontSize: '0.9rem' }}>{journal.accomplishment}</Typography>
+
+                    <Typography variant="body2" sx={{ fontWeight: 'bold', marginBottom: 1, fontSize: '0.9rem' }}>Grateful:</Typography>
+                    <Typography variant="body2" sx={{ marginBottom: 2, fontSize: '0.9rem' }}>{journal.gratitude}</Typography>
+
+                    <Typography variant="body2" sx={{ fontWeight: 'bold', marginBottom: 1, fontSize: '0.9rem' }}>Learned:</Typography>
+                    <Typography variant="body2" sx={{ marginBottom: 2, fontSize: '0.9rem' }}>{journal.learning}</Typography>
+
+                    <Typography variant="body2" sx={{ fontWeight: 'bold', marginBottom: 1, fontSize: '0.9rem' }}>Struggled:</Typography>
+                    <Typography variant="body2" sx={{ marginBottom: 2, fontSize: '0.9rem' }}>{journal.struggle}</Typography>
+
+                    <Typography variant="body2" sx={{ fontWeight: 'bold', marginBottom: 1, fontSize: '0.9rem' }}>Looking forward:</Typography>
+                    <Typography variant="body2" sx={{ marginBottom: 2, fontSize: '0.9rem' }}>{journal.lookingForward}</Typography>
+
+                    <Typography variant="caption" sx={{ fontStyle: 'italic', fontSize: '0.8rem' }}>Username: {journal.login.username}</Typography>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
       </div>
     </>
   );
