@@ -20,6 +20,7 @@ const JOURNALS_QUERY = gql`
       struggle
       lookingForward
       entryDate
+      access
       login {
         username
       }
@@ -93,27 +94,73 @@ export default function Past({ restId, setRestId }) {
         <Grid container spacing={2} sx={{ marginTop: "2rem" }}>
           {filteredJournals.map((journal) => (
             <Grid item xs={12} sm={6} md={3} key={journal.id}>
-              <Card sx={{ width: '100%', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+              <Card
+                sx={{
+                  width: "100%",
+                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                  position: "relative",
+                }}
+              >
                 <CardContent>
-                  <Box sx={{ height: '100%' }}>
-                    <Typography variant="h6" sx={{ marginBottom: 2 }}>{journal.entryDate}</Typography>
+                  <Box sx={{ height: "100%" }}>
+                    <Typography variant="h6" sx={{ marginBottom: 2 }}>
+                      {journal.entryDate}
+                    </Typography>
 
-                    <Typography variant="body2" sx={{ fontWeight: 'bold', marginBottom: 1, fontSize: '0.9rem' }}>Accomplished:</Typography>
-                    <Typography variant="body2" sx={{ marginBottom: 2, fontSize: '0.9rem' }}>{journal.accomplishment}</Typography>
+                    <Typography variant="body2" sx={{ fontWeight: "bold", marginBottom: 1, fontSize: "0.9rem" }}>
+                      Accomplished:
+                    </Typography>
+                    <Typography variant="body2" sx={{ marginBottom: 2, fontSize: "0.9rem" }}>
+                      {journal.accomplishment}
+                    </Typography>
 
-                    <Typography variant="body2" sx={{ fontWeight: 'bold', marginBottom: 1, fontSize: '0.9rem' }}>Grateful:</Typography>
-                    <Typography variant="body2" sx={{ marginBottom: 2, fontSize: '0.9rem' }}>{journal.gratitude}</Typography>
+                    <Typography variant="body2" sx={{ fontWeight: "bold", marginBottom: 1, fontSize: "0.9rem" }}>
+                      Grateful:
+                    </Typography>
+                    <Typography variant="body2" sx={{ marginBottom: 2, fontSize: "0.9rem" }}>
+                      {journal.gratitude}
+                    </Typography>
 
-                    <Typography variant="body2" sx={{ fontWeight: 'bold', marginBottom: 1, fontSize: '0.9rem' }}>Learned:</Typography>
-                    <Typography variant="body2" sx={{ marginBottom: 2, fontSize: '0.9rem' }}>{journal.learning}</Typography>
+                    <Typography variant="body2" sx={{ fontWeight: "bold", marginBottom: 1, fontSize: "0.9rem" }}>
+                      Learned:
+                    </Typography>
+                    <Typography variant="body2" sx={{ marginBottom: 2, fontSize: "0.9rem" }}>
+                      {journal.learning}
+                    </Typography>
 
-                    <Typography variant="body2" sx={{ fontWeight: 'bold', marginBottom: 1, fontSize: '0.9rem' }}>Struggled:</Typography>
-                    <Typography variant="body2" sx={{ marginBottom: 2, fontSize: '0.9rem' }}>{journal.struggle}</Typography>
+                    <Typography variant="body2" sx={{ fontWeight: "bold", marginBottom: 1, fontSize: "0.9rem" }}>
+                      Struggled:
+                    </Typography>
+                    <Typography variant="body2" sx={{ marginBottom: 2, fontSize: "0.9rem" }}>
+                      {journal.struggle}
+                    </Typography>
 
-                    <Typography variant="body2" sx={{ fontWeight: 'bold', marginBottom: 1, fontSize: '0.9rem' }}>Looking forward:</Typography>
-                    <Typography variant="body2" sx={{ marginBottom: 2, fontSize: '0.9rem' }}>{journal.lookingForward}</Typography>
+                    <Typography variant="body2" sx={{ fontWeight: "bold", marginBottom: 1, fontSize: "0.9rem" }}>
+                      Looking forward:
+                    </Typography>
+                    <Typography variant="body2" sx={{ marginBottom: 2, fontSize: "0.9rem" }}>
+                      {journal.lookingForward}
+                    </Typography>
 
-                    <Typography variant="caption" sx={{ fontStyle: 'italic', fontSize: '0.8rem' }}>Username: {journal.login.username}</Typography>
+                    <Typography variant="body2" sx={{ fontWeight: "bold", marginBottom: 1, fontSize: "0.9rem" }}>
+                      Access:
+                    </Typography>
+                    <Typography variant="body2" sx={{ marginBottom: 2, fontSize: "0.9rem" }}>
+                      {journal.access ? "Access Granted" : "Access Denied"}
+                    </Typography>
+
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        top: "8px",
+                        right: "8px",
+                        width: "10px",
+                        height: "10px",
+                        borderRadius: "50%",
+                        backgroundColor: journal.access ? "#207a5d" : "#ac2626",
+                        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+                      }}
+                    />
                   </Box>
                 </CardContent>
               </Card>

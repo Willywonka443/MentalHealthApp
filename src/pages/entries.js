@@ -14,6 +14,7 @@ import {
   Typography,
   TextField,
   FormLabel,
+  Switch
 } from '@mui/material';
 import {
   AutoStories as AutoStoriesIcon,
@@ -33,6 +34,7 @@ mutation createJournal(
   $entryDate: Date!
   $username: String!  # Make sure this field exists in the mutation
   $id: ID!
+  $access: Boolean!
 
 ) {
   createJournal(
@@ -45,6 +47,7 @@ mutation createJournal(
       entryDate: $entryDate
       username: $username  # Make sure the field is included in the mutation
       login: {connect: {id:$id}}
+      access: $access
     }
   ) {
     id
@@ -59,6 +62,7 @@ mutation createJournal(
     entryDate
     stage
     username
+    access
   }
 }
 
@@ -82,6 +86,7 @@ function JournalEntryForm({ restId }) {
   const [struggle, setStruggle] = useState('');
   const [entryDate, setEntryDate] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [accessGranted, setAccessGranted] = useState(false);
 
   const [createJournalEntry, { loading: createLoading, error: createError }] = useMutation(CREATE_JOURNAL_ENTRY, { client });
   const [publishJournalEntry, { loading: publishLoading, error: publishError }] = useMutation(PUBLISH_JOURNAL_ENTRY, { client });
@@ -115,7 +120,8 @@ function JournalEntryForm({ restId }) {
           lookingForward,
           struggle,
           entryDate: isoDate,
-          id: storedId, // Pass the storedId as a variable
+          id: storedId,
+          access: accessGranted,
         },
       });
 
@@ -134,13 +140,13 @@ function JournalEntryForm({ restId }) {
       setEntryDate('');
 
       console.log('Journal entry published successfully');
-      console.log(storedId  )
+      console.log(storedId)
     } catch (error) {
       console.error('Error occurred while publishing journal entry:', error);
     }
   };
 
-  if (createLoading || publishLoading ) {
+  if (createLoading || publishLoading) {
     return <p>Loading...</p>;
   }
 
@@ -180,19 +186,19 @@ function JournalEntryForm({ restId }) {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Journal {restId}
           </Typography>
-          <IconButton size="large"   color="inherit" onClick={() => goToHome()}>
+          <IconButton size="large" color="inherit" onClick={() => goToHome()}>
             <HomeIcon />
           </IconButton>
-          <IconButton size="large"  color="inherit"  onClick={() => goToCalm()}>
+          <IconButton size="large" color="inherit" onClick={() => goToCalm()}>
             <SelfImprovementIcon />
           </IconButton>
           <IconButton size="large" disabled>
             <CreateIcon />
           </IconButton>
-          <IconButton size="large"  color="inherit" onClick={() => goToPast()}>
+          <IconButton size="large" color="inherit" onClick={() => goToPast()}>
             <AutoStoriesIcon />
           </IconButton>
-          <IconButton size="large"   color="inherit"  onClick={() => goToLogin()}>
+          <IconButton size="large" color="inherit" onClick={() => goToLogin()}>
             <LogoutIcon />
           </IconButton>
         </Toolbar>
@@ -273,14 +279,15 @@ function JournalEntryForm({ restId }) {
                 onChange={(e) => setEntryDate(e.target.value)}
               />
             </Grid>
-
+            <Grid item xs={10} sx={{mt:2, textAlign:'center'}}>
+              <FormLabel>Grant Access</FormLabel>
+              <Switch checked={accessGranted} onChange={(e) => setAccessGranted(e.target.checked)} />
+            </Grid>
             <Grid item xs={10} sx={{ mt: 2, textAlign: 'center' }}>
               <Button variant="contained" onClick={handleSubmit}>
                 Submit
               </Button>
-              {isSubmitted && (
-                <p style={{ color: 'green' }}>Success! Your form has been submitted.</p>
-              )}
+              {isSubmitted && <p style={{ color: 'green' }}>  Success! Your form has been submitted. Access {accessGranted ? 'granted' : 'not granted'}.</p>}
             </Grid>
           </Grid>
         </CardContent>
