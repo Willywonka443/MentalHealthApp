@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './login';
-
+import EditEntry from './editentries'
 import Calm from './calm';
 import Basepage from './basepage'
 import Past from './past'
@@ -29,6 +29,7 @@ const Layout = () => {
                 <Route exact path="/past" element={<Past restId={restId}/> } />
                 <Route exact path="/entries" element={<JournalEntryForm restId={restId}/>} />
                 <Route exact path="/account" element={<CreateAccount restId={restId}/>} />
+                <Route exact path="/editentries/:journalId" element={<EditEntry restId={restId}/>} />
 
             </Routes>
 

@@ -10,6 +10,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import React from "react";
 import { CssBaseline } from '@mui/material';
 
+import EditIcon from "@mui/icons-material/Edit";
+
 const JOURNALS_QUERY = gql`
   query Journals($limit: Int) {
     journals(first: $limit) {
@@ -48,6 +50,9 @@ export default function Past({ restId, setRestId }) {
     sessionStorage.removeItem('id');
     navigate("/login");
   };
+  const handleEditClick = (journalId) => {
+    navigate(`../editentries/${journalId}`); // Navigate to the edit page with the journalId as a parameter
+  };
 
   const storedUsername = sessionStorage.getItem('username');
 
@@ -63,6 +68,8 @@ export default function Past({ restId, setRestId }) {
   const filteredJournals = data.journals.filter(
     (journal) => journal.login && journal.login.username === storedUsername
   );
+
+  
 
   return (
     <>
@@ -90,6 +97,7 @@ export default function Past({ restId, setRestId }) {
             </IconButton>
           </Toolbar>
         </AppBar>
+
 
         <Grid container spacing={2} sx={{ marginTop: "2rem" }}>
           {filteredJournals.map((journal) => (
@@ -162,6 +170,13 @@ export default function Past({ restId, setRestId }) {
                       }}
                     />
                   </Box>
+                  <IconButton
+                    size="small"
+                    onClick={() => handleEditClick(journal.id)} // Add a click handler
+                    sx={{ position: "absolute", top: "8px", right: "8px" }}
+                  >
+                    <EditIcon />
+                  </IconButton>
                 </CardContent>
               </Card>
             </Grid>
