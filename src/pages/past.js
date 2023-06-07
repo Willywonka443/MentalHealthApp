@@ -1,15 +1,17 @@
 import client from "../apolloClient";
 import { gql, useQuery } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
-import HomeIcon from "@mui/icons-material/Home";
-import SelfImprovementIcon from "@mui/icons-material/SelfImprovement";
 import { IconButton, Grid, Card, CardContent, Typography, Box, AppBar, Toolbar } from "@mui/material";
-import CreateIcon from "@mui/icons-material/Create";
-import AutoStoriesIcon from "@mui/icons-material/AutoStories";
-import LogoutIcon from '@mui/icons-material/Logout';
-import React from "react";
+import React , {useState, useEffect} from "react";
 import { CssBaseline } from '@mui/material';
-
+import {
+  AutoStories as AutoStoriesIcon,
+  Create as CreateIcon,
+  Home as HomeIcon,
+  Logout as LogoutIcon,
+  SelfImprovement as SelfImprovementIcon,
+  AssignmentInd as AssignmentIndIcon
+} from '@mui/icons-material';
 import EditIcon from "@mui/icons-material/Edit";
 
 const JOURNALS_QUERY = gql`
@@ -32,6 +34,16 @@ const JOURNALS_QUERY = gql`
 
 export default function Past({ restId, setRestId }) {
   const navigate = useNavigate();
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  useEffect(() => {
+    // Check for stored information (boolean value)
+    const professional = sessionStorage.getItem('professional'); // Assuming you are using localStorage for storing the value
+    console.log('Stored Value:', professional);
+    // Perform the check
+    setIsButtonDisabled(professional !== 'true');
+  }, []);
+
 
   const goToHome = () => {
     navigate("/basepage");
@@ -44,10 +56,14 @@ export default function Past({ restId, setRestId }) {
   const goToJournal = () => {
     navigate("/entries");
   };
+  const goToProfessional = () => {
+    navigate('/professionalentries');
+}
 
   const goToLogin = () => {
     sessionStorage.removeItem('username');
     sessionStorage.removeItem('id');
+    sessionStorage.removeItem('professional');
     navigate("/login");
   };
   const handleEditClick = (journalId) => {
@@ -92,6 +108,9 @@ export default function Past({ restId, setRestId }) {
             <IconButton size="large" disabled>
               <AutoStoriesIcon />
             </IconButton>
+            <IconButton size="large" color="inherit" onClick={goToProfessional} disabled={isButtonDisabled} >
+            <AssignmentIndIcon />
+          </IconButton>
             <IconButton size="large" color="inherit" onClick={() => goToLogin()}>
               <LogoutIcon />
             </IconButton>

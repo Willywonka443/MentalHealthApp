@@ -1,12 +1,17 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { IconButton, AppBar, Toolbar, Typography, Button, Grid, Card, CardContent, CardMedia, CardActions} from '@mui/material';
 import { useNavigate } from "react-router-dom";
-import HomeIcon from '@mui/icons-material/Home';
-import SelfImprovementIcon from '@mui/icons-material/SelfImprovement';
-import CreateIcon from '@mui/icons-material/Create';
-import AutoStoriesIcon from '@mui/icons-material/AutoStories';
-import LogoutIcon from '@mui/icons-material/Logout';
+import {
+  AutoStories as AutoStoriesIcon,
+  Create as CreateIcon,
+  Home as HomeIcon,
+  Logout as LogoutIcon,
+  SelfImprovement as SelfImprovementIcon,
+  AssignmentInd as AssignmentIndIcon
+} from '@mui/icons-material';
+
 import { CssBaseline } from '@mui/material';
+
 
 const Calm = ({ restId }) => {
   
@@ -24,16 +29,22 @@ const Calm = ({ restId }) => {
 
     navigate("/past")
   }
+  const goToPatientPast = () => {
+    navigate('/professionalentries');
+  };
+
 
   const goToLogin = () => {
-    sessionStorage.removeItem('username'); 
+    sessionStorage.removeItem('username');
     sessionStorage.removeItem('id');
+    sessionStorage.removeItem('professional');
     navigate("/login");
   }
 
   const [showBreathing, setShowBreathing] = useState(false);
   const [breathingCount, setBreathingCount] = useState(0);
   const [disableButton, setDisableButton] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   
   const startBreathing = () => {
     setShowBreathing(true);
@@ -107,6 +118,13 @@ const Calm = ({ restId }) => {
       setIndexS((prevIndex) => (prevIndex === sounds.length - 1 ? 0 : prevIndex + 1));
     };
   
+    useEffect(() => {
+      // Check for stored information (boolean value)
+      const professional = sessionStorage.getItem('professional'); // Assuming you are using localStorage for storing the value
+      console.log('Stored Value:', professional);
+      // Perform the check
+      setIsButtonDisabled(professional !== 'true');
+    }, []);
 
   
   return (
@@ -128,6 +146,9 @@ const Calm = ({ restId }) => {
           </IconButton>
           <IconButton size="large"   color="inherit"  onClick={() => goToPast()}>
             <AutoStoriesIcon />
+          </IconButton>
+          <IconButton size="large" color="inherit" onClick={goToPatientPast} disabled={isButtonDisabled} >
+            <AssignmentIndIcon />
           </IconButton>
           <IconButton size="large" color="inherit"  onClick={() => goToLogin()}>
             <LogoutIcon />

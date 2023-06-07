@@ -15,6 +15,7 @@ const LOGIN_QUERY = gql`
     logins(where: { username: $username , password: $password }) {
       username
       password
+      professional 
       id
     }
   }
@@ -39,10 +40,13 @@ const Login = () => {
       console.log('Login Successful!');
       sessionStorage.setItem('username', login.username);
       sessionStorage.setItem('id', login.id); // Store the user's ID
+      sessionStorage.setItem('professional', login.professional);
+      console.log(login.professional)
       navigate(`/basepage?username=${login.username}`);
     } else {
       setError(true);
       setErrorMessage('Invalid username or password');
+      
     }
   };
 

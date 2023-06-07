@@ -7,6 +7,7 @@ import Basepage from './basepage'
 import Past from './past'
 import JournalEntryForm from './entries';
 import CreateAccount from './account';
+import ProfessionalEntries from './professionalentries';
 
 
 
@@ -30,6 +31,7 @@ const Layout = () => {
                 <Route exact path="/entries" element={<JournalEntryForm restId={restId}/>} />
                 <Route exact path="/account" element={<CreateAccount restId={restId}/>} />
                 <Route exact path="/editentries/:journalId" element={<EditEntry restId={restId}/>} />
+                <Route exact path="/professionalentries" element={<ProfessionalEntries restId={restId}/>} />
 
             </Routes>
 

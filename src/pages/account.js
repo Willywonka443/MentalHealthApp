@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { gql, useMutation } from '@apollo/client';
-import { Card, CardContent, TextField, Button, Typography, IconButton, InputAdornment } from '@mui/material';
+import { Card, CardContent, TextField, Button, Typography, IconButton, InputAdornment, FormLabel, Switch, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import client from '../apolloClient';
 import { Link } from 'react-router-dom';
@@ -12,7 +12,9 @@ const CREATE_LOGIN = gql`
     $firstName: String!,
     $lastName: String!,
     $email: String!,
-    $password: String!,  
+    $password: String!, 
+    $accessCode: String!,
+    $shareAccount: Boolean!, 
   ) {
     createLogin(
       data: {
@@ -20,7 +22,9 @@ const CREATE_LOGIN = gql`
         firstName: $firstName,
         lastName: $lastName,
         email: $email,
-        password: $password,   
+        password: $password,
+        accessCode: $accessCode,
+        shareAccount: $shareAccount   
       }
     ) {
       username
@@ -28,6 +32,8 @@ const CREATE_LOGIN = gql`
       lastName
       email
       password
+      accessCode
+      shareAccount
       id
       stage 
     }
@@ -52,6 +58,8 @@ const CreateAccount = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [professional, setprofessional] = useState(false);
+  const [shareAccount, setshareAccount] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [createLogin] = useMutation(CREATE_LOGIN, { client });
@@ -72,6 +80,8 @@ const CreateAccount = () => {
             firstName,
             lastName,
             email,
+            shareAccount,
+            professional
           },
         });
 
@@ -102,109 +112,152 @@ const CreateAccount = () => {
 
   return (
     <div style={{ background: 'linear-gradient(135deg, #0079BF, #3AAFA9, #D4DCE1)', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <Card sx={{ width: 400, maxHeight: '80vh', overflow: 'auto' }}>
-        <CardContent style={{ display: 'grid', gap: '1rem' }}>
-          <Typography variant="h4" component="h1" align="center" gutterBottom>
-            Create Account
-          </Typography>
-          <form onSubmit={handleCreateAccount} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-            <TextField
-              id="firstName"
-              label="First Name"
-              variant="standard"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              id="lastName"
-              label="Last Name"
-              variant="standard"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              id="email"
-              label="Email"
-              variant="standard"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              id="username"
-              label="Username"
-              variant="standard"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              id="password"
-              label="Password"
-              type={showPassword ? 'text' : 'password'}
-              variant="standard"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              fullWidth
-              margin="normal"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      edge="end"
-                      aria-label="toggle password visibility"
-                      onClick={handleTogglePasswordVisibility}
-                      onMouseDown={(e) => e.preventDefault()}
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <TextField
-              id="confirm-password"
-              label="Confirm Password"
-              type={showConfirmPassword ? 'text' : 'password'}
-              variant="standard"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              fullWidth
-              margin="normal"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      edge="end"
-                      aria-label="toggle password visibility"
-                      onClick={handleToggleConfirmPasswordVisibility}
-                      onMouseDown={(e) => e.preventDefault()}
-                    >
-                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-             <Link to="/login" style={{ textDecoration: 'none' }}>
-            <Button variant="text" fullWidth sx={{ color: '#3f51b5', gridColumn: '1' }}>
-              Back
-            </Button>
-            </Link>
-            <Button type="submit" variant="contained" sx={{ color: '#ffffff', background: '#3f51b5', gridColumn: '2' }}>
-              Create Account
-            </Button>
-           
-          </form>
-        </CardContent>
-      </Card>
-    </div>
+    <Card sx={{ width: 400, maxHeight: '80vh', overflow: 'auto' }}>
+      <CardContent>
+        <Typography variant="h4" component="h1" align="center" gutterBottom>
+          Create Account
+        </Typography>
+        <form onSubmit={handleCreateAccount} style={{ display: 'grid', gap: '1rem' }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                id="firstName"
+                label="First Name"
+                variant="standard"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                fullWidth
+                margin="normal"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                id="lastName"
+                label="Last Name"
+                variant="standard"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                fullWidth
+                margin="normal"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                id="email"
+                label="Email"
+                variant="standard"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                fullWidth
+                margin="normal"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                id="username"
+                label="Username"
+                variant="standard"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                fullWidth
+                margin="normal"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Grid container alignItems="center">
+                <Grid item xs={12} sm={6}>
+                  <FormLabel>Share Account</FormLabel>
+                </Grid>
+                <Grid item xs={12} sm={6} style={{ textAlign: 'center' }}>
+                  <Switch
+                    checked={shareAccount}
+                    onChange={(e) => setshareAccount(e.target.checked)}
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <Grid container alignItems="center">
+                <Grid item xs={12} sm={6}>
+                  <FormLabel>Are you a professional?</FormLabel>
+                </Grid>
+                <Grid item xs={12} sm={6} style={{ textAlign: 'center' }}>
+                  <Switch
+                    checked={professional}
+                    onChange={(e) => setprofessional(e.target.checked)}
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                id="password"
+                label="Password"
+                type={showPassword ? 'text' : 'password'}
+                variant="standard"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                fullWidth
+                margin="normal"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        edge="end"
+                        aria-label="toggle password visibility"
+                        onClick={handleTogglePasswordVisibility}
+                        onMouseDown={(e) => e.preventDefault()}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                id="confirm-password"
+                label="Confirm Password"
+                type={showConfirmPassword ? 'text' : 'password'}
+                variant="standard"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                fullWidth
+                margin="normal"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        edge="end"
+                        aria-label="toggle password visibility"
+                        onClick={handleToggleConfirmPasswordVisibility}
+                        onMouseDown={(e) => e.preventDefault()}
+                      >
+                        {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Link to="/login" style={{ textDecoration: 'none' }}>
+                <Button variant="text" fullWidth sx={{ color: '#3f51b5' }}>
+                  Back
+                </Button>
+              </Link>
+            </Grid>
+            <Grid item xs={6}>
+              <Button type="submit" variant="contained" sx={{ color: '#ffffff', background: '#3f51b5' }}>
+                Create Account
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
+      </CardContent>
+    </Card>
+  </div>
 
   );
 };

@@ -22,7 +22,9 @@ import {
   Home as HomeIcon,
   Logout as LogoutIcon,
   SelfImprovement as SelfImprovementIcon,
+  AssignmentInd as AssignmentIndIcon
 } from '@mui/icons-material';
+
 
 const CREATE_JOURNAL_ENTRY = gql`
 mutation createJournal(
@@ -87,6 +89,7 @@ function JournalEntryForm({ restId }) {
   const [entryDate, setEntryDate] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [accessGranted, setAccessGranted] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const [createJournalEntry, { loading: createLoading, error: createError }] = useMutation(CREATE_JOURNAL_ENTRY, { client });
   const [publishJournalEntry, { loading: publishLoading, error: publishError }] = useMutation(PUBLISH_JOURNAL_ENTRY, { client });
@@ -100,6 +103,14 @@ function JournalEntryForm({ restId }) {
 
     setStoredUsername(username || 'username');
     setStoredId(id || 'id');
+  }, []);
+
+  useEffect(() => {
+    // Check for stored information (boolean value)
+    const professional = sessionStorage.getItem('professional'); // Assuming you are using localStorage for storing the value
+    console.log('Stored Value:', professional);
+    // Perform the check
+    setIsButtonDisabled(professional !== 'true');
   }, []);
 
   const handleSubmit = async (e) => {
@@ -173,11 +184,22 @@ function JournalEntryForm({ restId }) {
   const goToPast = () => {
     navigate('/past');
   };
+  
+
+  
+
+  const goToPatientPast = () => {
+    navigate('/professionalentries');
+  };
 
   const goToLogin = () => {
     sessionStorage.removeItem('username');
+    sessionStorage.removeItem('id');
+    sessionStorage.removeItem('professional');
     navigate('/login');
   };
+
+
 
   return (
     <>
@@ -197,6 +219,9 @@ function JournalEntryForm({ restId }) {
           </IconButton>
           <IconButton size="large" color="inherit" onClick={() => goToPast()}>
             <AutoStoriesIcon />
+          </IconButton>
+          <IconButton size="large" color="inherit" onClick={goToPatientPast} disabled={isButtonDisabled} >
+            <AssignmentIndIcon />
           </IconButton>
           <IconButton size="large" color="inherit" onClick={() => goToLogin()}>
             <LogoutIcon />
@@ -279,7 +304,7 @@ function JournalEntryForm({ restId }) {
                 onChange={(e) => setEntryDate(e.target.value)}
               />
             </Grid>
-            <Grid item xs={10} sx={{mt:2, textAlign:'center'}}>
+            <Grid item xs={10} sx={{ mt: 2, textAlign: 'center' }}>
               <FormLabel>Grant Access</FormLabel>
               <Switch checked={accessGranted} onChange={(e) => setAccessGranted(e.target.checked)} />
             </Grid>

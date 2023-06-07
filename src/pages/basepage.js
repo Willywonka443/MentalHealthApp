@@ -2,11 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, IconButton } from '@mui/material';
 import { useQuery, gql } from '@apollo/client';
-import HomeIcon from '@mui/icons-material/Home';
-import SelfImprovementIcon from '@mui/icons-material/SelfImprovement';
-import CreateIcon from '@mui/icons-material/Create';
-import AutoStoriesIcon from '@mui/icons-material/AutoStories';
-import LogoutIcon from '@mui/icons-material/Logout';
+import {
+    AutoStories as AutoStoriesIcon,
+    Create as CreateIcon,
+    Home as HomeIcon,
+    Logout as LogoutIcon,
+    SelfImprovement as SelfImprovementIcon,
+    AssignmentInd as AssignmentIndIcon
+  } from '@mui/icons-material';
+  
 import client from '../apolloClient';
 
 
@@ -24,6 +28,7 @@ export const Basepage = () => {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const userName = queryParams.get('username') || '';
+    const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
 
     const [user, setUser] = useState('');
@@ -53,6 +58,14 @@ export const Basepage = () => {
         setUser(storedUsername);
     }, []);
 
+    useEffect(() => {
+        // Check for stored information (boolean value)
+        const professional = sessionStorage.getItem('professional'); // Assuming you are using localStorage for storing the value
+        console.log('Stored Value:', professional);
+        // Perform the check
+        setIsButtonDisabled(professional !== 'true');
+      }, []);
+
     const goToJournal = () => {
         navigate('/entries');
     };
@@ -64,13 +77,18 @@ export const Basepage = () => {
     const goToPast = () => {
         navigate('/past');
     };
+    const goToProfessional = () => {
+        navigate('/professionalentries');
+    }
 
     const goToLogin = () => {
         sessionStorage.removeItem('username');
         sessionStorage.removeItem('id');
+        sessionStorage.removeItem('professional');
         navigate('/login');
     };
 
+    
 
 
     if (loading) {
@@ -96,6 +114,9 @@ export const Basepage = () => {
                     <IconButton size="large" color="inherit" onClick={goToPast}>
                         <AutoStoriesIcon />
                     </IconButton>
+                    <IconButton size="large" color="inherit" onClick={goToProfessional} disabled={isButtonDisabled} >
+            <AssignmentIndIcon />
+          </IconButton>
                     <IconButton size="large"  color="inherit" onClick={goToLogin}>
 
                         <LogoutIcon />
