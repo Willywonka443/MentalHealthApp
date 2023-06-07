@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { gql, useMutation } from '@apollo/client';
+import { gql, useMutation, useLazyQuery } from '@apollo/client';
 import { Card, CardContent, TextField, Button, Typography, IconButton, InputAdornment, FormLabel, Switch, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import client from '../apolloClient';
@@ -12,9 +12,8 @@ const CREATE_LOGIN = gql`
     $firstName: String!,
     $lastName: String!,
     $email: String!,
-    $password: String!, 
-    $accessCode: String!,
-    $shareAccount: Boolean!, 
+    $password: String!,
+    $shareAccount: Boolean!
   ) {
     createLogin(
       data: {
@@ -23,8 +22,7 @@ const CREATE_LOGIN = gql`
         lastName: $lastName,
         email: $email,
         password: $password,
-        accessCode: $accessCode,
-        shareAccount: $shareAccount   
+        shareAccount: $shareAccount
       }
     ) {
       username
@@ -32,10 +30,9 @@ const CREATE_LOGIN = gql`
       lastName
       email
       password
-      accessCode
       shareAccount
       id
-      stage 
+      stage
     }
   }
 `;
@@ -51,6 +48,13 @@ const PUBLISH_LOGIN = gql`
   }
 `;
 
+const CHECK_USERNAME_AVAILABILITY = gql`
+  query CheckLogins($username: String!) {
+    logins(where: { username: $username }) {
+      username
+    }
+  }
+`;
 const CreateAccount = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -65,9 +69,48 @@ const CreateAccount = () => {
   const [createLogin] = useMutation(CREATE_LOGIN, { client });
   const [publishLogin] = useMutation(PUBLISH_LOGIN, { client });
   const navigate = useNavigate();
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  const [isUsernameTaken, setIsUsernameTaken] = useState(false);
+
+  const [checkUsernameAvailability] = useLazyQuery(CHECK_USERNAME_AVAILABILITY, {
+    client,
+    variables: {
+      username: "desiredUsername"
+    }
+  });
+
+  const handleUsernameChange = async (e) => {
+    const enteredUsername = e.target.value;
+    setUsername(enteredUsername);
+    try {
+      const { data } = await checkUsernameAvailability({
+        variables: {
+          username: enteredUsername,
+        },
+      });
+      const isTaken = data.logins.length > 0;
+      setIsUsernameTaken(isTaken);
+      setIsFormValid(
+        enteredUsername &&
+        password &&
+        password === confirmPassword &&
+        !isTaken
+      );
+    } catch (error) {
+      console.error(error);
+      setIsUsernameTaken(false);
+      setIsFormValid(false);
+    }
+  };
 
   const handleCreateAccount = async (e) => {
     e.preventDefault();
+
+    if (isUsernameTaken) {
+      alert(`The username "${username}" is already taken. Please try another one.`);
+      return;
+    }
 
     // Check if the entered username and password meet your requirements
     if (username && password && password === confirmPassword) {
@@ -102,6 +145,7 @@ const CreateAccount = () => {
       alert('Please enter a valid username and password');
     }
   };
+
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -112,152 +156,159 @@ const CreateAccount = () => {
 
   return (
     <div style={{ background: 'linear-gradient(135deg, #0079BF, #3AAFA9, #D4DCE1)', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-    <Card sx={{ width: 400, maxHeight: '80vh', overflow: 'auto' }}>
-      <CardContent>
-        <Typography variant="h4" component="h1" align="center" gutterBottom>
-          Create Account
-        </Typography>
-        <form onSubmit={handleCreateAccount} style={{ display: 'grid', gap: '1rem' }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                id="firstName"
-                label="First Name"
-                variant="standard"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                fullWidth
-                margin="normal"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                id="lastName"
-                label="Last Name"
-                variant="standard"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                fullWidth
-                margin="normal"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                id="email"
-                label="Email"
-                variant="standard"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                fullWidth
-                margin="normal"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                id="username"
-                label="Username"
-                variant="standard"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                fullWidth
-                margin="normal"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Grid container alignItems="center">
-                <Grid item xs={12} sm={6}>
-                  <FormLabel>Share Account</FormLabel>
-                </Grid>
-                <Grid item xs={12} sm={6} style={{ textAlign: 'center' }}>
-                  <Switch
-                    checked={shareAccount}
-                    onChange={(e) => setshareAccount(e.target.checked)}
-                  />
+      <Card sx={{ width: 400, maxHeight: '80vh', overflow: 'auto' }}>
+        <CardContent>
+          <Typography variant="h4" component="h1" align="center" gutterBottom>
+            Create Account
+          </Typography>
+          <form onSubmit={handleCreateAccount} style={{ display: 'grid', gap: '1rem' }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  id="firstName"
+                  label="First Name"
+                  variant="standard"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  fullWidth
+                  margin="normal"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  id="lastName"
+                  label="Last Name"
+                  variant="standard"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  fullWidth
+                  margin="normal"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  id="email"
+                  label="Email"
+                  variant="standard"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  fullWidth
+                  margin="normal"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  id="username"
+                  label="Username"
+                  variant="standard"
+                  value={username}
+                  onChange={handleUsernameChange}
+                  fullWidth
+                  margin="normal"
+                  error={isUsernameTaken} // Add the error prop based on isUsernameTaken state
+                  helperText={isUsernameTaken && "This username is already taken"} // Display helper text if the username is taken
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container alignItems="center">
+                  <Grid item xs={12} sm={6}>
+                    <FormLabel>Share Account</FormLabel>
+                  </Grid>
+                  <Grid item xs={12} sm={6} style={{ textAlign: 'center' }}>
+                    <Switch
+                      checked={shareAccount}
+                      onChange={(e) => setshareAccount(e.target.checked)}
+                    />
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-            <Grid item xs={12}>
-              <Grid container alignItems="center">
-                <Grid item xs={12} sm={6}>
-                  <FormLabel>Are you a professional?</FormLabel>
-                </Grid>
-                <Grid item xs={12} sm={6} style={{ textAlign: 'center' }}>
-                  <Switch
-                    checked={professional}
-                    onChange={(e) => setprofessional(e.target.checked)}
-                  />
+              <Grid item xs={12}>
+                <Grid container alignItems="center">
+                  <Grid item xs={12} sm={6}>
+                    <FormLabel>Are you a professional?</FormLabel>
+                  </Grid>
+                  <Grid item xs={12} sm={6} style={{ textAlign: 'center' }}>
+                    <Switch
+                      checked={professional}
+                      onChange={(e) => setprofessional(e.target.checked)}
+                    />
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                id="password"
-                label="Password"
-                type={showPassword ? 'text' : 'password'}
-                variant="standard"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                fullWidth
-                margin="normal"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        edge="end"
-                        aria-label="toggle password visibility"
-                        onClick={handleTogglePasswordVisibility}
-                        onMouseDown={(e) => e.preventDefault()}
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                id="confirm-password"
-                label="Confirm Password"
-                type={showConfirmPassword ? 'text' : 'password'}
-                variant="standard"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                fullWidth
-                margin="normal"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        edge="end"
-                        aria-label="toggle password visibility"
-                        onClick={handleToggleConfirmPasswordVisibility}
-                        onMouseDown={(e) => e.preventDefault()}
-                      >
-                        {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Link to="/login" style={{ textDecoration: 'none' }}>
-                <Button variant="text" fullWidth sx={{ color: '#3f51b5' }}>
-                  Back
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  id="password"
+                  label="Password"
+                  type={showPassword ? 'text' : 'password'}
+                  variant="standard"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  fullWidth
+                  margin="normal"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          edge="end"
+                          aria-label="toggle password visibility"
+                          onClick={handleTogglePasswordVisibility}
+                          onMouseDown={(e) => e.preventDefault()}
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  id="confirm-password"
+                  label="Confirm Password"
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  variant="standard"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  fullWidth
+                  margin="normal"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          edge="end"
+                          aria-label="toggle password visibility"
+                          onClick={handleToggleConfirmPasswordVisibility}
+                          onMouseDown={(e) => e.preventDefault()}
+                        >
+                          {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Link to="/login" style={{ textDecoration: 'none' }}>
+                  <Button variant="text" fullWidth sx={{ color: '#3f51b5' }}>
+                    Back
+                  </Button>
+                </Link>
+              </Grid>
+              <Grid item xs={6}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  sx={{ color: '#ffffff', background: '#3f51b5' }}
+                  disabled={!isFormValid}
+                >
+                  Create Account
                 </Button>
-              </Link>
+              </Grid>
             </Grid>
-            <Grid item xs={6}>
-              <Button type="submit" variant="contained" sx={{ color: '#ffffff', background: '#3f51b5' }}>
-                Create Account
-              </Button>
-            </Grid>
-          </Grid>
-        </form>
-      </CardContent>
-    </Card>
-  </div>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
 
   );
 };

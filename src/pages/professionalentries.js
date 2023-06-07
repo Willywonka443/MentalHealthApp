@@ -113,7 +113,7 @@ export default function ProfessionalEntries() {
         <AppBar position="sticky" sx={{ background: '#0047ab' }}>
           <Toolbar>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Home
+              Patients Journals
             </Typography>
             <IconButton size="large" color="inherit" onClick={goToHome}>
               <HomeIcon />
