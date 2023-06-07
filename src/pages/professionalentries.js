@@ -62,15 +62,15 @@ export default function ProfessionalEntries() {
 
   const goToJournal = () => {
     navigate('/entries');
-};
+  };
 
-const goToCalm = () => {
+  const goToCalm = () => {
     navigate('/calm');
-};
+  };
 
-const goToPast = () => {
+  const goToPast = () => {
     navigate('/past');
-};
+  };
 
   const goToLogin = () => {
     sessionStorage.removeItem('username');
@@ -134,23 +134,23 @@ const goToPast = () => {
               <LogoutIcon />
             </IconButton>
             <TextField
-  label="Search by access code"
-  value={searchInput}
-  onChange={(e) => setSearchInput(e.target.value)}
-  onKeyPress={handleKeyPress}
-  fullWidth
-  sx={{
-    marginBottom: '1rem',
-    maxWidth: '300px', // Adjust the maxWidth value to make the search box smaller
-  }}
-  InputProps={{
-    endAdornment: (
-      <IconButton onClick={handleSearch}>
-        <SearchIcon />
-      </IconButton>
-    ),
-  }}
-/>
+              label="Search by access code"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              onKeyPress={handleKeyPress}
+              fullWidth
+              sx={{
+                marginBottom: '1rem',
+                maxWidth: '300px', // Adjust the maxWidth value to make the search box smaller
+              }}
+              InputProps={{
+                endAdornment: (
+                  <IconButton onClick={handleSearch}>
+                    <SearchIcon />
+                  </IconButton>
+                ),
+              }}
+            />
           </Toolbar>
         </AppBar>
 
