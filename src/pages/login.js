@@ -74,94 +74,95 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
 
-    return (
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '110vh',
-        marginTop: '-10vh', // Adjust the margin top value as needed
-        background: 'linear-gradient(135deg, #0079BF, #3AAFA9, #D4DCE1)',
-        backgroundSize: '200% 200%',
-        animation: 'gradientAnimation 15s ease-in-out infinite'
+  return (
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '100vh',
+      background: 'linear-gradient(135deg, #0079BF, #3AAFA9, #D4DCE1)',
+      backgroundSize: '200% 200%',
+      animation: 'gradientAnimation 15s ease-in-out infinite'
+    }}>
+      <Typography variant="h4" component="div" sx={{ marginBottom: '3rem', color: '#0047ab', textAlign: 'center', marginTop: '-10vh' }}>
+        <CustomIcon style={{ marginRight: '0.5rem', verticalAlign: 'middle' }} />
+        PeacefulPulse
+      </Typography>
+      <Card sx={{
+        width: '90%', // Adjust the width as needed
+        maxWidth: '300px', // Maximum width for mobile view
+        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)'
       }}>
-        <Typography variant="h4" component="div" sx={{ marginBottom: '3rem', color: '#0047ab', textAlign: 'center', marginTop: '-15vh' }}>
-          <CustomIcon style={{ marginRight: '0.5rem', verticalAlign: 'middle', marginTop: '20vh' }} />
-          PeacefulPulse
-        </Typography>
-        <Card sx={{ width: 300, height: 310, boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)' }}>
-          <CardContent>
-            <Typography variant="h5" component="div" sx={{ marginBottom: '1rem', color: '#333333' }}>
-              Login
-            </Typography>
-            <form onSubmit={handleLogin}>
-              <TextField
-                id="username"
-                label="Username"
-                variant="outlined"
-                fullWidth
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                sx={{
-                  marginBottom: '1rem',
-                  borderColor: error ? 'red' : undefined,
-                }}
-              />
-              <TextField
-                id="password"
-                label="Password"
-                type={showPassword ? 'text' : 'password'} // Toggle password visibility based on showPassword state
-                variant="outlined"
-                fullWidth
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        edge="end"
-                        aria-label="toggle password visibility"
-                        onClick={handleTogglePasswordVisibility}
-                        onMouseDown={(e) => e.preventDefault()}
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-                sx={{
-                  marginBottom: '1rem',
-                  borderColor: error ? 'red' : undefined,
-                }}
-              />
-              {error && (
-                <Typography variant="body2" color="error" sx={{ marginBottom: '1rem' }}>
-                  {errorMessage}
-                </Typography>
-              )}
-              <Button
-                type="submit"
-                variant="contained"
-                fullWidth
-                disabled={loading}
-                sx={{ backgroundColor: '#3f51b5', color: '#ffffff', marginTop: '1rem' }}
-              >
-                {loading ? 'Logging in...' : 'Login'}
+        <CardContent>
+          <Typography variant="h5" component="div" sx={{ marginBottom: '1rem', color: '#333333' }}>
+            Login
+          </Typography>
+          <form onSubmit={handleLogin}>
+            <TextField
+              id="username"
+              label="Username"
+              variant="outlined"
+              fullWidth
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              sx={{
+                marginBottom: '1rem',
+                borderColor: error ? 'red' : undefined,
+              }}
+            />
+            <TextField
+              id="password"
+              label="Password"
+              type={showPassword ? 'text' : 'password'} // Toggle password visibility based on showPassword state
+              variant="outlined"
+              fullWidth
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      edge="end"
+                      aria-label="toggle password visibility"
+                      onClick={handleTogglePasswordVisibility}
+                      onMouseDown={(e) => e.preventDefault()}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              sx={{
+                marginBottom: '1rem',
+                borderColor: error ? 'red' : undefined,
+              }}
+            />
+            {error && (
+              <Typography variant="body2" color="error" sx={{ marginBottom: '1rem' }}>
+                {errorMessage}
+              </Typography>
+            )}
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              disabled={loading}
+              sx={{ backgroundColor: '#3f51b5', color: '#ffffff', marginTop: '1rem' }}
+            >
+              {loading ? 'Logging in...' : 'Login'}
+            </Button>
+            <Link to="/account" style={{ textDecoration: 'none' }}>
+              <Button variant="text" fullWidth sx={{ color: '#3f51b5', marginTop: '0.5rem' }}>
+                Create Account
               </Button>
-              <Link to="/account" style={{ textDecoration: 'none' }}>
-                <Button variant="text" fullWidth sx={{ color: '#3f51b5', marginTop: '0.5rem' }}>
-                  Create Account
-                </Button>
-              </Link>
-            </form>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  };
-
-
+            </Link>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
 
 
 export default Login;
