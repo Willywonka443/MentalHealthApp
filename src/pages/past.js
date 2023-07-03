@@ -169,12 +169,7 @@ export default function Past({ restId, setRestId }) {
                       {journal.lookingForward}
                     </Typography>
 
-                    <Typography variant="body2" sx={{ fontWeight: "bold", marginBottom: 1, fontSize: "0.9rem" }}>
-                      Access:
-                    </Typography>
-                    <Typography variant="body2" sx={{ marginBottom: 2, fontSize: "0.9rem" }}>
-                      {journal.access ? "Access Granted" : "Access Denied"}
-                    </Typography>
+                   
 
                     <Box
                       sx={{
@@ -192,7 +187,7 @@ export default function Past({ restId, setRestId }) {
                   <IconButton
                     size="small"
                     onClick={() => handleEditClick(journal.id)} // Add a click handler
-                    sx={{ position: "absolute", top: "8px", right: "8px" }}
+                    sx={{ position: "absolute", bottom: "8px", right: "8px" }}
                   >
                     <EditIcon />
                   </IconButton>
