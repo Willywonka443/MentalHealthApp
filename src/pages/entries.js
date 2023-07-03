@@ -34,7 +34,7 @@ mutation createJournal(
   $lookingForward: String!
   $struggle: String!
   $entryDate: Date!
-  $username: String!  # Make sure this field exists in the mutation
+  $username: String! 
   $id: ID!
   $access: Boolean!
 
@@ -47,7 +47,7 @@ mutation createJournal(
       lookingForward: $lookingForward
       struggle: $struggle
       entryDate: $entryDate
-      username: $username  # Make sure the field is included in the mutation
+      username: $username 
       login: {connect: {id:$id}}
       access: $access
     }
@@ -106,10 +106,9 @@ function JournalEntryForm({ restId }) {
   }, []);
 
   useEffect(() => {
-    // Check for stored information (boolean value)
-    const professional = sessionStorage.getItem('professional'); // Assuming you are using localStorage for storing the value
+   
+    const professional = sessionStorage.getItem('professional'); 
     console.log('Stored Value:', professional);
-    // Perform the check
     setIsButtonDisabled(professional !== 'true');
   }, []);
 
@@ -168,10 +167,6 @@ function JournalEntryForm({ restId }) {
   if (publishError) {
     return <p>Error: {publishError?.message}</p>;
   }
-
-  // if (connectError){
-  //   return <p>Error: {connectError?.message}</p>;
-  // }
 
   const goToHome = () => {
     navigate('/basepage');

@@ -155,8 +155,14 @@ const CreateAccount = () => {
   };
 
   return (
-    <div style={{ background: 'linear-gradient(135deg, #0079BF, #3AAFA9, #D4DCE1)', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <Card sx={{ width: 400, maxHeight: '80vh', overflow: 'auto' }}>
+    <div style={{ 
+      background: 'linear-gradient(135deg, #0079BF, #3AAFA9, #D4DCE1)', 
+      minHeight: '100vh', 
+      display: 'flex', 
+      alignItems: 'center', 
+      justifyContent: 'center' 
+    }}>
+      <Card style={{ width: 400, maxHeight: '80vh', overflow: 'auto' }}>
         <CardContent>
           <Typography variant="h4" component="h1" align="center" gutterBottom>
             Create Account

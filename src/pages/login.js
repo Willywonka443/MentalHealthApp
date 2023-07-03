@@ -87,10 +87,10 @@ const Login = () => {
         animation: 'gradientAnimation 15s ease-in-out infinite'
       }}>
         <Typography variant="h4" component="div" sx={{ marginBottom: '3rem', color: '#0047ab', textAlign: 'center', marginTop: '-15vh' }}>
-          <CustomIcon style={{ marginRight: '0.5rem', verticalAlign: 'middle' }} />
+          <CustomIcon style={{ marginRight: '0.5rem', verticalAlign: 'middle', marginTop: '20vh' }} />
           PeacefulPulse
         </Typography>
-        <Card sx={{ width: 300, boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)' }}>
+        <Card sx={{ width: 300, height: 310, boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)' }}>
           <CardContent>
             <Typography variant="h5" component="div" sx={{ marginBottom: '1rem', color: '#333333' }}>
               Login
