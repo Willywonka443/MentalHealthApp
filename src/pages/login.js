@@ -157,6 +157,11 @@ const Login = () => {
                 Create Account
               </Button>
             </Link>
+            <Link to="/passwordrecovery" style={{ textDecoration: 'none' }}>
+              <Button variant="text" fullWidth sx={{ color: '#3f51b5', marginTop: '0.5rem' }}>
+                Forgot Password
+              </Button>
+            </Link>
           </form>
         </CardContent>
       </Card>
