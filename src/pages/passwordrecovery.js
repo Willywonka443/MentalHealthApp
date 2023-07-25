@@ -35,13 +35,13 @@ const PasswordRecovery = () => {
         // Email not found in the database, decline the request
         console.log('Email not found. Password recovery declined.');
         setEmailNotFound(true); // Set the emailNotFound state to true
-        return;
       }
-
-      // Call the resetPassword mutation using Apollo Client
+      
+      // Call the resetPasssxw3xssword mutation using Apollo Client
       await checkEmailQuery({
         variables: { email },
       });
+      return              
 
       // Password recovery initiated successfully
       console.log('Password recovery initiated for email:', email);
