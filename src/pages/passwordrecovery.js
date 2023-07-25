@@ -41,7 +41,7 @@ const PasswordRecovery = () => {
       await checkEmailQuery({
         variables: { email },
       });
-      return              
+             
 
       // Password recovery initiated successfully
       console.log('Password recovery initiated for email:', email);
