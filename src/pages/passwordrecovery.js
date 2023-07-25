@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { Container, Typography, TextField, Button, Card } from '@mui/material';
+import { Container, Typography, TextField, Button, Card, Dialog, DialogContent, DialogTitle, DialogActions } from '@mui/material';
 import { Link } from 'react-router-dom';
-import {  gql, useLazyQuery } from '@apollo/client';
+import { gql, useLazyQuery } from '@apollo/client';
 import client from '../apolloClient';
 
-// Define your GraphQL mutation for password recovery
-const RESET_PASSWORD_MUTATION = gql`
-  query Login($email: String!) {
+// Define your GraphQL query for checking if the email exists
+
+const CHECK_EMAIL_QUERY = gql`
+  query CheckEmail($email: String!) {
     logins(where: {email: $email}) {
       email
     }
@@ -16,16 +17,29 @@ const RESET_PASSWORD_MUTATION = gql`
 const PasswordRecovery = () => {
   const [email, setEmail] = useState('');
   const [resetRequested, setResetRequested] = useState(false);
+  const [emailNotFound, setEmailNotFound] = useState(false); // State to track if email is not found
 
-  // Use the mutation hook from Apollo Client
-  const [resetPasswordMutation] = useLazyQuery(RESET_PASSWORD_MUTATION, {client});
+  // Use the query hook from Apollo Client
+  const [checkEmailQuery] = useLazyQuery(CHECK_EMAIL_QUERY, { client });
 
   const handlePasswordRecovery = async (e) => {
     e.preventDefault();
 
     try {
+      // Check if the email exists in the database using Apollo Client
+      const { data } = await checkEmailQuery({
+        variables: { email },
+      });
+
+      if (!data.logins.length) {
+        // Email not found in the database, decline the request
+        console.log('Email not found. Password recovery declined.');
+        setEmailNotFound(true); // Set the emailNotFound state to true
+        return;
+      }
+
       // Call the resetPassword mutation using Apollo Client
-      await resetPasswordMutation({
+      await checkEmailQuery({
         variables: { email },
       });
 
@@ -37,6 +51,12 @@ const PasswordRecovery = () => {
       console.error('Password recovery error:', error.message);
     }
   };
+
+  
+  const handleCloseDialog = () => {
+    setEmailNotFound(false);
+  };
+
 
   // JSX for the password recovery form
   return (
@@ -68,29 +88,44 @@ const PasswordRecovery = () => {
             </Typography>
           ) : (
             <form onSubmit={handlePasswordRecovery}>
-              <TextField
-                type="email"
-                label="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                fullWidth
-                variant="outlined"
-                margin="normal"
-              />
-              <Button type="submit" variant="contained" color="primary" fullWidth>
-                Recover Password
+            <TextField
+              type="email"
+              label="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              fullWidth
+              variant="outlined"
+              margin="normal"
+            />
+            <Button type="submit" variant="contained" color="primary" fullWidth>
+              Recover Password
+            </Button>
+            <Link to="/login" style={{ textDecoration: 'none' }}>
+              <Button variant="text" fullWidth sx={{ color: '#3f51b5', marginTop: '0.5rem' }}>
+                Back
               </Button>
-              <Link to="/login" style={{ textDecoration: 'none' }}>
-                <Button variant="text" fullWidth sx={{ color: '#3f51b5', marginTop: '0.5rem' }}>
-                  Back
+            </Link>
+            {/* Alert dialog for email not found */}
+            <Dialog open={emailNotFound} onClose={handleCloseDialog}>
+              <DialogTitle>Email Not Found</DialogTitle>
+              <DialogContent>
+                <Typography variant="body1" color="error" align="center">
+                  Email not found. Please check your email address.
+                </Typography>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleCloseDialog} color="primary">
+                  OK
                 </Button>
-              </Link>
-            </form>
-          )}
-        </Container>
-      </Card>
-    </div>
+              </DialogActions>
+            </Dialog>
+          </form>
+        )}
+      </Container>
+    </Card>
+
+  </div>
   );
 };
 
